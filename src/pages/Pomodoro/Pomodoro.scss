@@ -21,6 +21,18 @@
       flex-direction: column;
       gap: 25px;
 
+      .tasks-wrapper{
+        margin-top: 52px;
+        width: 500px
+        
+
+        // .horizontal-divider {
+        //   width: 100%;
+        //   height: 1px;
+        //   background-color: white;
+        // }
+      }
+
       .pomodoro-buttons{
         display: flex;
         flex-direction: row;

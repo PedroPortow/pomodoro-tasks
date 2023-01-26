@@ -14,7 +14,7 @@ export const Switch = ({onThemeChange}) => {
   return (
     <>
       <input type="checkbox" hidden="hidden" id="input" />
-      <label class="switch" htmlFor="input" onClick={handleClick} ></label>
+      <label className="switch" htmlFor="input" onClick={handleClick} ></label>
     </>
   )
 }

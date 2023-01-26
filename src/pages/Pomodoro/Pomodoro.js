@@ -6,6 +6,7 @@ import { Timer } from '../../components/Timer/Timer'
 import { ButtonPlay } from '../../components/Buttons/ButtonPlay'
 import { ButtonPomodoro } from '../../components/Buttons/ButtonPomodoro'
 import { ConfigMenu } from '../../components/ConfigMenu/ConfigMenu'
+import { Tasks } from '../../components/Tasks/Tasks'
 
 export const Pomodoro = () => {
   const { theme, setTheme, isThemeDark } = useThemeContext()
@@ -72,7 +73,6 @@ export const Pomodoro = () => {
           vibrate: true
         }
       )
-        
       setTimeout(() => notification.close(), 5000)
   } 
 
@@ -111,9 +111,11 @@ export const Pomodoro = () => {
                 />
               )
             })}
-
           </div>
-
+          <div className='tasks-wrapper'>
+            <div className='horizontal-divider' />
+            <Tasks />
+          </div>
         </div>
 
       </div>

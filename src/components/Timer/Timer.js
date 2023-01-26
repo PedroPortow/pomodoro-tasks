@@ -89,9 +89,6 @@ export const Timer = ({
     }
   }, [isPaused, minutesFormatted, secondsFormatted])
 
-  console.log({isPaused})
-
-
   return (
     <p className={isThemeDark ? 'time-text dark-text ' : 'time-text light-text'}>{minutesFormatted} : {secondsFormatted} </p>
   )
