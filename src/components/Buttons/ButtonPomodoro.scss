@@ -1,0 +1,19 @@
+.active{
+  opacity: 100%;
+  cursor: pointer;
+  transition: opacity 150ms ease-in-out;
+}
+
+.inactive{
+  opacity: 25%;
+  cursor: pointer;
+  transition: opacity 150ms ease-in-out;
+}
+
+.dark-text{
+  color: #282C34;;
+}
+
+.light-text{
+  color: rgb(234, 234, 234);
+}

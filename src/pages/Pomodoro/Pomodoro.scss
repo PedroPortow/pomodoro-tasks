@@ -1,0 +1,48 @@
+.timer-wrapper{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .pomodoro-wrapper{
+    height: 50%;
+    width:  50%;
+    display: flex;
+    justify-content: center;
+    // border: 1px solid red;
+   
+    
+    .time-progressbar-wrapper{
+      margin-top: 25px;
+      display: flex;
+      margin-top: 90px;
+      align-items: center;
+      flex-direction: column;
+      gap: 25px;
+
+      .pomodoro-buttons{
+        display: flex;
+        flex-direction: row;
+        gap: 18px;
+      }
+
+      .wrapper {
+        width: 75%;
+      }
+
+     
+    }
+  }
+
+}
+
+.light{
+  background-color: rgb(234, 234, 234);
+  transition: 150ms ease-in-out;
+}
+
+.dark{
+  background-color: #282C34;
+  transition: 150ms ease-in-out;
+}
