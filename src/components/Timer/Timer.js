@@ -65,9 +65,34 @@ export const Timer = ({
     } 
   }, [seconds, isPaused])
 
+  let minutesFormatted = minutes < 10 ? `0${minutes}` : minutes
+  let secondsFormatted = seconds < 10 ? `0${seconds}` : seconds
+
+
+  useEffect(() => {
+    if(!isPaused){
+      switch(activeMode){
+        case 'POMODORO':
+          document.title = `Pomodoro! - ${minutesFormatted}:${secondsFormatted} `
+          break;
+        case 'SHORT_BREAK':
+          document.title = `Pausinha! - ${minutesFormatted}:${secondsFormatted} `
+          break;
+        case 'LONG_BREAK':
+          document.title = `Pausão! - ${minutesFormatted}:${secondsFormatted} `
+          break;
+        default:
+          return null;
+      }
+    } else {
+      document.title = 'Pomodoro!'
+    }
+  }, [isPaused, minutesFormatted, secondsFormatted])
+
   console.log({isPaused})
 
+
   return (
-    <p className={isThemeDark ? 'time-text dark-text ' : 'time-text light-text'}>{minutes < 10 ? `0${minutes}` : minutes} : {seconds < 10 ? `0${seconds}` : seconds}</p>
+    <p className={isThemeDark ? 'time-text dark-text ' : 'time-text light-text'}>{minutesFormatted} : {secondsFormatted} </p>
   )
 }
