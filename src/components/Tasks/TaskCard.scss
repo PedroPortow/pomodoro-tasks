@@ -4,32 +4,75 @@ $white: #fff;
 $gray: #9b9b9b;
 
 
-
+.padding{
+  padding: 5px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 .card-wrapper{
   width: 100%;
   background-color: white;
   height: fit-content;
-  padding: 5px 15px;
   border-radius: 5px;
-  gap: 15px;
+
+
+  .btn-add-obs{
+    all: unset;
+    cursor: pointer;
+    background-color: transparent;
+    text-decoration: underline;
+
+    margin-left: 75px;
+    align-self: flex-end;
+    white-space: nowrap;
+    i{
+      margin-right: 3px;
+    }
+    
+  }
+
+  .text-area{
+    min-height: 100px;
+    display: flex;
+    flex: 1;
+    border-radius: 4px;
+    padding: 12px 30px;
+    width: 100%;
+    background: #e6e6e6;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555555;
+    outline: none;
+    border: none;
+    overflow: auto;
+    resize: none;
+    margin: 0;
+  }
 
   .estimated-time-wrapper{
     display: flex;
     flex-direction: row;
     gap: 8px;
     margin-top: 15px;
-    border: 1px solid red;
 
     .unit-input{
       align-items: center;
       position: relative;
+      margin-top: 10px;
+
+      .subtitle{
+        color: #646464;
+      }
+      
+     
     }
 
     .arrow-up{
       position: absolute;
       z-index: 99;
       left: 57px;
-      top: 15px;
+      top: 5px;
       box-shadow: -1px 3px 6px 0px rgba(0,0,0,0.07);
       cursor: pointer;
       background-color: white;
@@ -49,7 +92,7 @@ $gray: #9b9b9b;
       cursor: pointer;
       z-index: 99;
       left: 57px;
-      top: 35px;
+      top: 25px;
       box-shadow: -1px 3px 6px 0px rgba(0,0,0,0.07);
       background-color: white;
       padding: 3px;
@@ -79,7 +122,6 @@ $gray: #9b9b9b;
       width: 75px;
       margin-right: 10px;
       font-weight: bold;
-      margin-top: 10px;
 
       &:focus{
         outline: none;
@@ -92,12 +134,15 @@ $gray: #9b9b9b;
   }
 
   .card-footer{
-    margin-top: 50px;
     width: 100%;
-    border-radius: 5px;
     display: flex;
+    margin-top: 15px;
+    padding: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     gap: 8px;
     justify-content: flex-end;
+    background-color:#e6e6e6;
 
     .btn-cancel{ 
       outline: none;
