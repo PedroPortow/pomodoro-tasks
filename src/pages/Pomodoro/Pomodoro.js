@@ -7,13 +7,16 @@ import { ButtonPlay } from '../../components/Buttons/ButtonPlay'
 import { ButtonPomodoro } from '../../components/Buttons/ButtonPomodoro'
 import { ConfigMenu } from '../../components/ConfigMenu/ConfigMenu'
 import { Tasks } from '../../components/Tasks/Tasks'
+import { useTaskContext } from '../../context/TaskContext'
 
 export const Pomodoro = () => {
   const { theme, setTheme, isThemeDark } = useThemeContext()
+  const { taskSelected, setTaskSelected } = useTaskContext()
 
   const [pomodoroMinutes, setPomodoroMinutes] = useState(25)
   const [shortBreakMinutes, setShortBreakMinutes] = useState(5)
   const [longBreakMinutes, setLongBreakMinutes] = useState(15)
+  const [showTasks, setShowTasks] = useState(false)
 
   const [isPaused, setIsPaused] = useState(true)
   const [activeMode, setActiveMode] = useState('POMODORO')
@@ -42,23 +45,23 @@ export const Pomodoro = () => {
   }
 
   useEffect(() => {
-    if(Notification.permission !== "granted"){
+    if (Notification.permission !== "granted") {
       Notification.requestPermission()
-      .then((response) => {
-        if(response === "granted"){
-          const notify = new Notification("OIOIO")
-        } else {
-          console.log("Notificação foi rejeitada")
-        }
-      })
+        .then((response) => {
+          if (response === "granted") {
+            const notify = new Notification("OIOIO")
+          } else {
+            console.log("Notificação foi rejeitada")
+          }
+        })
     }
   }, [])
 
   const handleTimeFinished = () => {
-    if(activeMode === 'POMODORO'){
+    if (activeMode === 'POMODORO') {
       sendNotification(activeMode)
       setActiveMode('SHORT_BREAK')
-    } else if(activeMode === ('SHORT_BREAK' || 'LONG_BREAK')){
+    } else if (activeMode === ('SHORT_BREAK' || 'LONG_BREAK')) {
       sendNotification(activeMode)
       setActiveMode('POMODORO')
     }
@@ -66,19 +69,25 @@ export const Pomodoro = () => {
 
 
   const sendNotification = (activeMode) => {
-      const notification = new Notification(activeMode === 'POMODORO' ? "Hora de descansar! :)" : "Hora de focar!",
-        {
-          body: "Pomodoro",
-          icon: "https://i.pinimg.com/originals/df/4f/93/df4f93b0dea14af81d5dc44eb6ce4c77.jpg",
-          vibrate: true
-        }
-      )
-      setTimeout(() => notification.close(), 5000)
-  } 
+    const notification = new Notification(activeMode === 'POMODORO' ? "Hora de descansar! :)" : "Hora de focar!",
+      {
+        body: "Pomodoro",
+        icon: "https://i.pinimg.com/originals/df/4f/93/df4f93b0dea14af81d5dc44eb6ce4c77.jpg",
+        vibrate: true
+      }
+    )
+    setTimeout(() => notification.close(), 5000)
+  }
+
+  const handleShowTasks = () => {
+    setShowTasks(!showTasks)
+  }
+
+
 
   return (
     <div className={isThemeDark ? 'timer-wrapper light' : 'timer-wrapper dark'}>
-      <ConfigMenu 
+      <ConfigMenu
         shortBreakMinutes={pomodoroMinutes}
         longBreakMinutes={pomodoroMinutes}
         pomodoroMinutes={setPomodoroMinutes}
@@ -86,36 +95,46 @@ export const Pomodoro = () => {
         setShortBreakMinutes={setShortBreakMinutes}
         setLongBreakMinutes={setLongBreakMinutes}
       />
-      <Switch  />
+      <Switch />
       <div className='pomodoro-wrapper'>
+
         <div className='time-progressbar-wrapper'>
-          <Timer 
-            isPaused={isPaused} 
+          <div className='task-active-wrapper'>
+            <p>{taskSelected.title}</p>
+          </div>
+          <Timer
+            isPaused={isPaused}
             pomodoroMinutes={pomodoroMinutes}
             shortBreakMinutes={shortBreakMinutes}
             longBreakMinutes={longBreakMinutes}
-            setIsPaused={setIsPaused} 
-            activeMode={activeMode}  
-            handleTimeFinished={handleTimeFinished} 
+            setIsPaused={setIsPaused}
+            activeMode={activeMode}
+            handleTimeFinished={handleTimeFinished}
           />
           <ButtonPlay isPaused={isPaused} setIsPaused={setIsPaused} />
           <div className='pomodoro-buttons'>
             {buttonsPomodoro.map((button) => {
               return (
-                <ButtonPomodoro 
-                  onChange={handleActiveMode} 
-                  active={activeMode} 
-                  text={button.text} 
-                  key={button.id} 
-                  id={button.id} 
+                <ButtonPomodoro
+                  onChange={handleActiveMode}
+                  active={activeMode}
+                  text={button.text}
+                  key={button.id}
+                  id={button.id}
                 />
               )
             })}
           </div>
-          <div className='tasks-wrapper'>
-            <div className='horizontal-divider' />
-            <Tasks />
-          </div>
+          <p className={`light-text show-tasks-text mt-150 ${showTasks ? 'mt-25 hidden' : 'mt-150'}`}>
+            Tarefas
+          </p>
+          <i className={`fa-solid ${showTasks ? "fa-chevron-up" : "fa-chevron-down"} light-text`} onClick={handleShowTasks} />
+          {showTasks &&
+            <div className={`tasks-wrapper`}>
+              <div className='horizontal-divider' />
+              <Tasks />
+            </div>
+          }
         </div>
 
       </div>

@@ -15,19 +15,37 @@ $gray: #9b9b9b;
   background-color: white;
   height: fit-content;
   border-radius: 5px;
+  
+
+  
+  .time-label{
+    font-size: 16px;
+    font-weight: 600;
+    color: $primary;
+  }
 
 
   .btn-add-obs{
     all: unset;
     cursor: pointer;
     background-color: transparent;
-    text-decoration: underline;
+    // text-decoration: underline;
+    font-size: 16px;
+    font-weight: 600;
+    color: $primary;
 
     margin-left: 75px;
     align-self: flex-end;
     white-space: nowrap;
+
+    &:hover{
+      color: black;
+      transition: 150ms;
+    }
+
     i{
-      margin-right: 3px;
+      font-size: 16px;
+      margin-right: 5px;
     }
     
   }
@@ -37,7 +55,7 @@ $gray: #9b9b9b;
     display: flex;
     flex: 1;
     border-radius: 4px;
-    padding: 12px 30px;
+    padding: 8px 12px;
     width: 100%;
     background: #e6e6e6;
     font-size: 15px;
@@ -48,6 +66,7 @@ $gray: #9b9b9b;
     overflow: auto;
     resize: none;
     margin: 0;
+    margin-top: 10px;
   }
 
   .estimated-time-wrapper{
@@ -106,11 +125,6 @@ $gray: #9b9b9b;
     }
 
  
-    .time-label{
-      font-size: 16px;
-      font-weight: 600;
-      color: $primary;
-    }
     
     .input-number{
       border: none;
@@ -132,6 +146,14 @@ $gray: #9b9b9b;
       -webkit-appearance: none;
     }
   }
+  
+  .space-between{
+    justify-content: space-between;
+  }
+
+  .flex-end{
+    justify-content: flex-end;
+  }
 
   .card-footer{
     width: 100%;
@@ -141,8 +163,12 @@ $gray: #9b9b9b;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     gap: 8px;
-    justify-content: flex-end;
     background-color:#e6e6e6;
+
+    .end-row{
+      display: flex;
+      gap: 8px;
+    }
 
     .btn-cancel{ 
       outline: none;
@@ -238,6 +264,164 @@ $gray: #9b9b9b;
   }
   .form-field{
     &:required,&:invalid { box-shadow:none; }
+  }
+
+}
+
+.new-task-wrapper{
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  align-items: center;
+  // border: 5px dashed white;
+  // height: 150px;
+  // border-radius: 5px;
+
+  .btn-add-new-task{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 1px solid #e6e6e6;
+    color: #e6e6e6;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover{
+      background-color: #dbdbdb1f;
+      transition: 150ms ease-in-out
+    }
+
+    i{
+      margin-right: 3px;
+    }
+  }
+}
+
+.line-through{
+  text-decoration: line-through;
+}
+
+.card-selected{
+  transform: scale(0.97, 1);
+}
+
+.card-saved{
+  width: 100%;
+  background-color: white;
+  height: 75px;
+  border-radius: 15px;
+  padding: 5px 8px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  cursor: pointer;
+
+  &:hover{
+    transform: scale(1.02, 1.02);
+    transition: 150ms;
+
+    .color-bg{
+      transition: 150ms ease-in-out;
+    }
+  }
+
+  .estimated-time-card-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .title-estimated-time{
+      white-space: nowrap;
+      font-weight: 600;
+      font-size: 14px;
+      color: #9b9b9b;
+    }
+  }
+  .color-bg{
+    align-self: center;
+    justify-content: center;
+    margin: 8px;
+    
+  }
+
+  .blue{
+    background-color: blue
+  }
+  
+  .green{
+    background-color: #00b90f;
+  }
+
+  .grey{
+    background-color: #b1b1b1;
+  }
+
+  .text-saved-wrapper{
+    gap: 8px;
+    padding: 3px;
+    width: 286px;
+    max-width: 286px;
+  
+
+    .title-saved{
+      font-size: 16px;
+      font-weight: 600;
+      color: #646464;
+      margin-top: 2px;
+    }
+
+    .subtitle-saved{
+      font-weight: 600;
+      font-size: 14px;
+      color: #9b9b9b;
+      margin-top: 5px;
+      white-space: nowrap;
+    }
+  }
+
+  .icons-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 13px;
+    margin-left: 25px;
+
+    .fa-solid{
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .ellipsis{
+      color: #9b9b9b;
+      
+      &:hover{
+        transition: 150ms ease-in-out;
+        color: #555555;
+      }
+    }
+
+    .green-checked{
+      color: #00b90f;
+    }
+
+    
+
+    .not-checked{
+      color: #9b9b9b;
+      transition: 150ms ease-in-out;
+
+      &:hover{
+        color: #00b90f;
+        transition: 150ms ease-in-out;
+      }
+    }
+    
   }
 
 }

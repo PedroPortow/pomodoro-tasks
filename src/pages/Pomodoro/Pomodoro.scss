@@ -1,13 +1,16 @@
 .timer-wrapper{
-  height: 100vh;
+  min-height: 100vh;
+  height: fit-content;
+  padding-top: 200px;
+  
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
 
   .pomodoro-wrapper{
-    height: 50%;
-    width:  50%;
+    // height: 50%;
+    // width:  50%;
     display: flex;
     justify-content: center;
     // border: 1px solid red;
@@ -16,14 +19,37 @@
     .time-progressbar-wrapper{
       margin-top: 25px;
       display: flex;
-      margin-top: 90px;
       align-items: center;
       flex-direction: column;
       gap: 25px;
 
+      .task-active-wrapper{
+        color: white;
+        font-size: 16px;
+        height: 16px;
+
+      }
+
+      .show-tasks-text{
+        text-align: center;
+      }
+
+      .mt-150{
+        transition: 300ms ease-in-out;
+        margin-top: 150px;
+        opacity: 1;
+      }
+      .mt-25{
+        transition: 300ms ease-in-out;
+        margin-top: -20px;
+        opacity: 0;
+      }
+
+
       .tasks-wrapper{
-        margin-top: 52px;
-        width: 500px
+        width: 500px;
+        opacity: 1;
+        transition: 150ms ease-in-out;
         
 
         // .horizontal-divider {
