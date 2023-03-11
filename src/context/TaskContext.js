@@ -38,15 +38,20 @@ export const taskReducer = (state, action) => {
       newState = [...state]
       newState.map((task) => {
         if (task.id === action.payload.id) {
-          console.log("caiu aqui")
-          console.log(task.editable)
           task.editable = action.payload.editable
-          console.log(task.editable)
         }
       })
       return newState
     case 'REORDER':
       return action.payload.data
+    case 'POMODOROS_SPENT':
+      newState = [...state]
+      newState.map((task) => {
+        if (task.id === action.payload.id) {
+          task.editable = action.payload.editable
+        }
+      })
+      return newState
     default:
       return state
   }
@@ -55,8 +60,9 @@ export const taskReducer = (state, action) => {
 
 export const TaskContextProvider = ({ children }) => {
   const [tasks, dispatch] = useReducer(taskReducer, [])
-  const [taskSelected, setTaskSelected] = useState({})
+  const [selectedTask, setSelectedTask] = useState()
 
+  console.log({ selectedTask })
 
   console.log({ tasks })
   return (
@@ -64,8 +70,8 @@ export const TaskContextProvider = ({ children }) => {
       value={{
         tasks,
         dispatch,
-        taskSelected,
-        setTaskSelected,
+        selectedTask,
+        setSelectedTask
 
       }}
     >

@@ -10,3 +10,13 @@
   gap: 15px;
 
 }
+
+.color-bg{
+  color: #9b9b9b;
+  transition: 150ms ease-in-out;
+
+  &:hover{
+    transition: 150ms ease-in-out;
+    color: #555555;
+  }
+}

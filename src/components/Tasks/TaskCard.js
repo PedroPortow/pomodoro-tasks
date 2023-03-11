@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTaskContext } from '../../context/TaskContext'
 import './TaskCard.scss'
 
 export const TaskCard = ({
@@ -14,11 +15,13 @@ export const TaskCard = ({
   editable,
   title,
   description,
-  selected,
-  setSelected,
   estimatedTime,
-  draggableIcon
+  selected,
+  draggableIcon,
+  handleSelectTask
 }) => {
+  const { setSelectedTask, selectedTask } = useTaskContext()
+
   const [addDescription, setAddDescription] = useState(false)
   const [taskTitle, setTaskTitle] = useState(title ? title : undefined)
   const [taskEstimatedTime, setTaskEstimatedTime] = useState(estimatedTime ? estimatedTime : undefined)
@@ -27,7 +30,6 @@ export const TaskCard = ({
 
 
 
-  console.log({ selected })
   const handleSubmit = (e) => {
     console.log("submit feito")
     e.preventDefault()
@@ -86,8 +88,8 @@ export const TaskCard = ({
   } else {
     return (
       <div
-        className={`card-saved ${selected.id === id && 'card-selected'}`}
-        onClick={() => setSelected({ id: id, title: title })}
+        className={`card-saved ${selectedTask?.id === id && 'card-selected'}`}
+        onClick={() => setSelectedTask({ title, id })}
       >
         {draggableIcon}
         {/* <div className={`color-bg ${selected.id === id && !checked ? 'blue' : checked ? 'green' : 'grey'}`} /> */}

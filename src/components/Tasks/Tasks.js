@@ -1,5 +1,4 @@
 import React from 'react'
-import { useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTaskContext } from '../../context/TaskContext'
 import { AddTaskCard } from './AddTaskCard'
@@ -7,7 +6,7 @@ import { TaskCard } from './TaskCard'
 import './Tasks.scss'
 
 export const Tasks = () => {
-  const { tasks, dispatch, taskSelected, setTaskSelected } = useTaskContext()
+  const { tasks, dispatch } = useTaskContext()
 
   const handleAddNewTask = () => {
     dispatch({
@@ -17,6 +16,7 @@ export const Tasks = () => {
         checked: false,
         editable: false,
         title: null,
+        selected: false,
         estimated_time: null,
       }
     })
@@ -46,6 +46,7 @@ export const Tasks = () => {
   const handleEditTask = (id) => {
     dispatch({ type: 'EDIT', payload: { id, editable: true } })
   }
+
 
   console.log({ tasks })
 
@@ -95,12 +96,12 @@ export const Tasks = () => {
                               handleSaveTask={handleSaveTask}
                               handleEditTask={handleEditTask}
                               description={task.description}
+                              selected={task.selected}
                               draggableIcon={
                                 <i class="fa-solid fa-grip-vertical color-bg"
                                   {...provided.dragHandleProps} />
                               }
-                              selected={taskSelected}
-                              setSelected={setTaskSelected}
+                            // setSelected={setTaskSelected}
                             />
                           </div>
                         )

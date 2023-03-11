@@ -309,6 +309,7 @@ $gray: #9b9b9b;
 
 .card-selected{
   transform: scale(0.97, 1);
+  outline: 3px solid #027AFF;
 }
 
 .card-saved{
@@ -323,7 +324,7 @@ $gray: #9b9b9b;
   cursor: pointer;
 
   &:hover{
-    transform: scale(1.02, 1.02);
+    // transform: scale(1.02, 1.02);
     transition: 150ms;
 
     .color-bg{

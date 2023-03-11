@@ -5,9 +5,6 @@ import './ButtonPomodoro.scss'
 export const ButtonPomodoro = ({ text, active, onChange, id }) => {
   const { theme, setTheme, isThemeDark } = useThemeContext()
 
-
-
-
   return (
     <p
       id={id}

@@ -1,25 +1,33 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { motion } from "framer-motion";
 import './Pomodoro.scss'
 import { useThemeContext } from '../../context/ThemeContext'
-import { Switch } from '../../components/Switcher/Switch'
 import { Timer } from '../../components/Timer/Timer'
 import { ButtonPlay } from '../../components/Buttons/ButtonPlay'
 import { ButtonPomodoro } from '../../components/Buttons/ButtonPomodoro'
 import { ConfigMenu } from '../../components/ConfigMenu/ConfigMenu'
 import { Tasks } from '../../components/Tasks/Tasks'
 import { useTaskContext } from '../../context/TaskContext'
+import { Switch } from '../../components/Switcher/Switch/Switch';
 
 export const Pomodoro = () => {
   const { theme, setTheme, isThemeDark } = useThemeContext()
-  const { taskSelected, setTaskSelected } = useTaskContext()
+  const { tasks, selectedTask } = useTaskContext()
 
   const [pomodoroMinutes, setPomodoroMinutes] = useState(25)
+  // const [pomodoroMinutes, setPomodoroMinutes] = useState(25)
   const [shortBreakMinutes, setShortBreakMinutes] = useState(5)
   const [longBreakMinutes, setLongBreakMinutes] = useState(15)
   const [showTasks, setShowTasks] = useState(false)
 
   const [isPaused, setIsPaused] = useState(true)
   const [activeMode, setActiveMode] = useState('POMODORO')
+  const [minutesWorked, setMinutesWorked] = useState(0)
+  const [secondsWorked, setSecondsWorked] = useState(undefined)
+  const [pausedTime, setPausedTime] = useState(0)
+
+  const [timeCounterActive, setTimeCounterActive] = useState(true)
+
   const [buttonsPomodoro, setButtonsPomodoro] = useState([
     {
       id: 'SHORT_BREAK',
@@ -34,6 +42,8 @@ export const Pomodoro = () => {
       text: 'pausão'
     }
   ])
+
+
 
   const onThemeChange = () => {
     setTheme(isThemeDark ? 'dark' : 'light')
@@ -83,24 +93,52 @@ export const Pomodoro = () => {
     setShowTasks(!showTasks)
   }
 
+  console.log(selectedTask)
 
 
   return (
     <div className={isThemeDark ? 'timer-wrapper light' : 'timer-wrapper dark'}>
-      <ConfigMenu
-        shortBreakMinutes={pomodoroMinutes}
-        longBreakMinutes={pomodoroMinutes}
-        pomodoroMinutes={setPomodoroMinutes}
-        setPomodoroMinutes={setPomodoroMinutes}
-        setShortBreakMinutes={setShortBreakMinutes}
-        setLongBreakMinutes={setLongBreakMinutes}
-      />
-      <Switch />
+      <div className='top-left-wrapper'>
+        {/* <div className="flex-row switch-text">
+          <Switch
+            normalSwitch
+            onSwitch={onThemeChange}
+          />
+          <p className={isThemeDark ? 'dark-text' : 'light-text'}> Contar tempo</p>
+        </div> */}
+        <div className='worked-time-wrapper'>
+          <div className='flex-row center'>
+            <i className="fa-regular fa-clock"></i>
+            <p
+              className={isThemeDark ? 'dark-text' : 'light-text'}
+              style={{ fontWeight: '600', marginLeft: '8PX' }}
+            >Tempo trabalhado</p>
+          </div>
+          <div className='horizontal-divider' />
+          <div className='time-worked-texts flex-collumn'>
+            <p className={isThemeDark ? 'dark-text' : 'light-text'}>Tempo trabalhado: {minutesWorked}:{secondsWorked}</p>
+            <p className={isThemeDark ? 'dark-text' : 'light-text'}>Tempo pausa: 20</p>
+            <p className={isThemeDark ? 'dark-text' : 'light-text'}>Total: 20</p>
+          </div>
+        </div>
+      </div>
+      <div className="top-right-wrapper">
+        <Switch
+          withIcons
+          themeSwitch
+          onSwitch={onThemeChange}
+          offIcon={"fa-regular fa-sun"}
+          onIcon={"fa-regular fa-moon"}
+        />
+        {/* <i className={isThemeDark ? 'dark-text fa-solid fa-gear' : 'light-text fa-solid fa-gear'}></i> */}
+
+      </div>
+
       <div className='pomodoro-wrapper'>
 
         <div className='time-progressbar-wrapper'>
           <div className='task-active-wrapper'>
-            <p>{taskSelected.title}</p>
+            <p>{selectedTask && selectedTask.title}</p>
           </div>
           <Timer
             isPaused={isPaused}
@@ -110,6 +148,15 @@ export const Pomodoro = () => {
             setIsPaused={setIsPaused}
             activeMode={activeMode}
             handleTimeFinished={handleTimeFinished}
+            // workedTime={workedTime}
+            setMinutesWorked={setMinutesWorked}
+            minutesWorked={minutesWorked}
+            secondsWorked={secondsWorked}
+            setSecondsWorked={setSecondsWorked}
+            // setWorkedTime={setWorkedTime}
+            setPausedTime={setPausedTime}
+            pausedTime={pausedTime}
+            timeCounterActive={timeCounterActive}
           />
           <ButtonPlay isPaused={isPaused} setIsPaused={setIsPaused} />
           <div className='pomodoro-buttons'>
@@ -131,12 +178,10 @@ export const Pomodoro = () => {
           <i className={`fa-solid ${showTasks ? "fa-chevron-up" : "fa-chevron-down"} light-text`} onClick={handleShowTasks} />
           {showTasks &&
             <div className={`tasks-wrapper`}>
-              <div className='horizontal-divider' />
               <Tasks />
             </div>
           }
         </div>
-
       </div>
     </div>
   )
