@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion";
 import { useThemeContext } from '../../context/ThemeContext'
 import './Timer.scss'
+import { useApplicationContext } from '../../context/ApplicationContext';
 
 export const Timer = ({
-  isPaused,
-  setIsPaused,
-  activeMode,
   handleTimeFinished,
   pomodoroMinutes,
   shortBreakMinutes,
@@ -20,41 +18,8 @@ export const Timer = ({
   pausedTime,
   timeCounterActive
 }) => {
-
-  console.log({ pomodoroMinutes })
-
+  const { isPaused, setIsPaused, activeMode, setActiveMode, activeModeMinutes, modeMapping, setTotalMinutes, setMinutes, minutes, seconds, setSeconds,  } = useApplicationContext()
   const { isThemeDark } = useThemeContext()
-
-  const [minutes, setMinutes] = useState(0)
-  const [totalMinutes, setTotalMinutes] = useState()
-  const [seconds, setSeconds] = useState(0)
-
-  useEffect(() => {
-    switch (activeMode) {
-      case 'POMODORO':
-        setMinutes(pomodoroMinutes)
-        setTotalMinutes(pomodoroMinutes)
-        setSeconds(0)
-        // setSeconds(5)
-        break;
-      case 'SHORT_BREAK':
-        setMinutes(shortBreakMinutes)
-        setTotalMinutes(shortBreakMinutes)
-        // setSeconds(0)
-        // setSeconds(5)
-        break;
-      case 'LONG_BREAK':
-        setMinutes(longBreakMinutes)
-        setTotalMinutes(longBreakMinutes)
-        // setSeconds(0)
-        // setSeconds(5)
-        break;
-      default:
-        return null;
-    }
-  }, [activeMode])
-
-
 
 
   useEffect(() => {
@@ -64,31 +29,6 @@ export const Timer = ({
     if (!isPaused) {
       interval = setInterval(() => {
         clearInterval(interval)
-
-        console.log({ secondsWorked })
-
-        //Lógica contar tempo passado
-
-        if (secondsWorked === undefined) {
-          console.log("a")
-          console.log("oioi")
-          setSecondsWorked(1)
-        } else if (secondsWorked > 59 && secondsWorked !== undefined) {
-          console.log("oioi")
-          setSecondsWorked(secondsWorked + 1)
-        }
-
-
-        // if (secondsWorked !== 0) {
-        //   if (minutesWorked !== 0) {
-        //     setSecondsWorked(0)
-        //     setMinutesWorked(minutesWorked + 1)
-        //   } else {
-        //     clearTimeout(interval)
-        //   }
-        // } else {
-        //   setSecondsWorked(parseInt(secondsWorked) + 1)
-        // }
 
         //Lógica Timer
         if (seconds === 0) {
@@ -102,10 +42,7 @@ export const Timer = ({
         } else {
           setSeconds(seconds - 1)
         }
-
-
-
-      }, 1000)
+      }, 50)
     }
 
     return () => {
@@ -113,12 +50,8 @@ export const Timer = ({
     }
   }, [seconds, isPaused])
 
-  console.log({ activeMode })
   let minutesFormatted = minutes < 10 ? `0${minutes}` : minutes
   let secondsFormatted = seconds < 10 ? `0${seconds}` : seconds
-
-  // let favicon = document.querySelector("link[rel~='icon']");
-
 
   useEffect(() => {
     if (!isPaused) {
@@ -141,6 +74,8 @@ export const Timer = ({
   }, [isPaused, minutesFormatted, secondsFormatted])
 
   return (
-    <p className={isThemeDark ? 'time-text dark-text ' : 'time-text light-text'}>{minutesFormatted} : {secondsFormatted} </p>
+    <p className={isThemeDark ? 'time-text dark-text ' : 'time-text light-text'}>
+      {minutesFormatted}:{secondsFormatted}
+    </p>
   )
 }

@@ -1,19 +1,20 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useThemeContext } from '../../context/ThemeContext'
 import './ButtonPomodoro.scss'
 
-export const ButtonPomodoro = ({ text, active, onChange, id }) => {
-  const { theme, setTheme, isThemeDark } = useThemeContext()
+export const ButtonPomodoro = ({ text, active, onClick, id }) => {
+  const { isThemeDark } = useThemeContext()
 
   return (
-    <p
+    <a
       id={id}
       className={active === id
         ? `active btn ${isThemeDark ? 'dark-text' : 'light-text'}`
         : `inactive btn ${isThemeDark ? 'dark-text' : 'light-text'}`}
-      onClick={() => onChange(id)}>
+      onClick={onClick}
+    >
       {text}
-    </p>
+    </a>
   )
 }
 

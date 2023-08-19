@@ -1,0 +1,23 @@
+.progressbar-load{
+  width: 25%;
+  border-radius: 18px;
+  background: #8EBBFF;
+  width: 100%;
+  height: 6px;
+  position: relative;
+  z-index: 5;
+  top: 7px;
+}
+
+.progressbar-background{
+  border-radius: 18px;
+  background: #131724;
+  width: 100%;
+  height: 6px;
+  position: relative;
+  z-index: 4;
+}
+
+.progressbar-wrapper{
+  width: 100%;
+}

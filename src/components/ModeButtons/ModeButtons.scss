@@ -1,0 +1,37 @@
+.buttons-row{
+	display: flex;
+	flex-direction: row;
+	gap: 36px;
+	width: 100%;
+
+	.button-background{
+		border: none;
+		width: 135px;
+		height: 46px;
+		border-radius: 13px;
+		background: #131724;
+		position: absolute;
+		z-index: 0;
+		top: 58px;
+
+		transition: 0.2s ease-in-out;
+
+	}
+
+
+
+
+	.SHORT_BREAK-btn {
+		left: 28%
+	}
+
+	.LONG_BREAK-btn {
+	    left: 58%;
+	}
+
+	.POMODORO-btn{
+		left: 43%;
+	}
+
+}
+
