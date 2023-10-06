@@ -25,9 +25,8 @@
   .chevron{
     cursor: pointer;
     font-weight: bold;
-    position: fixed;
-    left: 755px;
     margin-top: 23px;
+    margin-left: 25px;
 
   }
 
@@ -37,6 +36,7 @@
     width: 100%;
     // background-color: rgba(255, 0, 0, 0.366);
     gap: 12px;
+    max-width: 321px;
 
 
     .attachments-wrapper{
@@ -60,6 +60,7 @@
     &-top-col{
       display: flex;
       flex-direction: column;
+      width: fit-content;
 
       .opened-subtitle{
         width: 327px;
@@ -71,6 +72,7 @@
         font-weight: 600;
         line-height: normal;
         color: #E3E3E3;
+        width: fit-content;
       }
 
       .task-subtitle{
