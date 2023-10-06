@@ -1,19 +1,20 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { motion } from "framer-motion";
-import './Pomodoro.scss'
+import './Home.scss'
 import { useThemeContext } from '../../context/ThemeContext'
 import { Timer } from '../../components/Timer/Timer'
 import { ButtonPlay } from '../../components/Buttons/ButtonPlay'
 import { ButtonPomodoro } from '../../components/Buttons/ButtonPomodoro'
 import { ConfigMenu } from '../../components/ConfigMenu/ConfigMenu'
-import { Tasks } from '../../components/Tasks/Tasks'
+import { TaskList, Tasks } from '../../components/Tasks/TaskList'
 import { useTaskContext } from '../../context/TaskContext'
 import { Switch } from '../../components/Switcher/Switch/Switch';
 import ModeButtons from '../../components/ModeButtons/ModeButtons';
 import { useApplicationContext } from '../../context/ApplicationContext';
 import ProgressBarTimer from '../../components/ProgressBarTimer/ProgressBarTimer';
+import { TaskCard } from '../../components/Tasks/components/TaskCard';
 
-export const Pomodoro = () => {
+export const Home = () => {
   const { theme, setTheme, isThemeDark } = useThemeContext()
   const { tasks, selectedTask } = useTaskContext()
   const {activeMode, setActiveMode} = useApplicationContext()
@@ -104,6 +105,10 @@ export const Pomodoro = () => {
       <div className='timer-wrapper'>
         <ProgressBarTimer />
         <ButtonPlay />
+      </div>
+      <div className='tasks-wrapper'>
+        <TaskList />
+        <button style={{marginTop: "25px", background: "#abc", border: "none"}}>adicionar tarefa</button>
       </div>
     </div>
   )

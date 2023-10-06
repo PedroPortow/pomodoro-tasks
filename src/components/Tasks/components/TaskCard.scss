@@ -1,0 +1,141 @@
+.task-card-wrapper{
+  width: 452px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 17px;
+  background: #131724;
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.25);
+  padding: 21px 21px;
+  gap: 14px;
+  // align-items: center;
+
+
+
+  .text-ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 250px;
+  }
+
+  .color-w{
+    color: #E3E3E3;
+  }
+
+  .chevron{
+    cursor: pointer;
+    font-weight: bold;
+    position: fixed;
+    left: 755px;
+    margin-top: 23px;
+
+  }
+
+  .task-content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    // background-color: rgba(255, 0, 0, 0.366);
+    gap: 12px;
+
+
+    .attachments-wrapper{
+      // background-color: green;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      height: fit-content;
+
+      .redirect-link{
+        color:#E3E3E3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
+        max-width: 360px;
+      }
+    }
+
+
+    &-top-col{
+      display: flex;
+      flex-direction: column;
+
+      .opened-subtitle{
+        width: 327px;
+      }
+
+      .task-title{
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color: #E3E3E3;
+      }
+
+      .task-subtitle{
+        color: #BEBEBE;
+        font-size: 14px;
+        text-align: justify;
+        display: block;
+
+      }
+    }
+
+    &-bottom-row{
+      display: flex;
+      flex-direction: row;
+      align-items:0 center;
+      gap: 4px;
+
+      .attachment-text{
+        color: #E3E3E3;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+    }
+  }
+
+}
+
+.collapsed{
+  height: fit-content;
+
+}
+
+.opened{
+  transition: 0.5s ease-in-out;
+
+}
+
+.task-container{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 14px;
+
+  .edit-buttons-col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    .fa{
+      color: white;
+      opacity: 0.5;
+      cursor: pointer;
+    }
+
+    .fa:hover{
+      opacity: 1 !important;
+      transition: 150ms ease-in-out;
+    }
+
+
+
+
+  }
+}

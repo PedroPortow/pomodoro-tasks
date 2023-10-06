@@ -21,7 +21,7 @@ function ModeButtons() {
 				text={"PAUSA LONGA"}
 				onClick={() => handleActiveModeChange("LONG_BREAK")}
 			/>
-			<button className={`${activeMode}-btn button-background`} />
+			{/* <button className={`${activeMode}-btn button-background`} /> */}
 		</div>
 	);
 }

@@ -59,12 +59,13 @@ export const taskReducer = (state, action) => {
 
 
 export const TaskContextProvider = ({ children }) => {
-  const [tasks, dispatch] = useReducer(taskReducer, [])
-  const [selectedTask, setSelectedTask] = useState()
+  const [tasks, dispatch] = useReducer(taskReducer, [{
+    title: "oi",
+    description: "asd",
+    id: 1,
+  }])
+  const [selectedTask, setSelectedTask] = useState({})
 
-  console.log({ selectedTask })
-
-  console.log({ tasks })
   return (
     <TaskContext.Provider
       value={{
