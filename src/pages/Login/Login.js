@@ -30,7 +30,6 @@ function Login() {
       .catch(error => {
         console.log(error)
       })
-
   }
 
   const validateFields = () => {

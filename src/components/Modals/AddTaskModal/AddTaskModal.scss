@@ -1,6 +1,14 @@
 .add-new-task-wrapper{
   display: flex;
   flex-direction: column;
+  
+  .add-attachments-wrapper{
+    display: flex;
+    flex-direction: column;
+    background: whitesmoke;
+    margin-top: 8px;
+    
+  }
 
   .mt-16{
     margin-top: 16px;
@@ -29,6 +37,21 @@
       // color: white;
       color: #717982;
     }
+    
+    .fa-plus{
+      color: #717982;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    .attachments-add-text{
+      color: #717982;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    
 
     .input-number{
       background-color: #272A2F;
@@ -36,7 +59,7 @@
       border: 1px solid #717982;
       border-radius: 15px;
       color: #d9d9d9;
-      width: 7%;
+      width: 32px;
     }
 
     .input-field{

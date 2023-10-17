@@ -7,11 +7,12 @@ import Modal from '../Modal';
 
 const AddTaskModal =  forwardRef(({ onSave }, ref) => {
   const [estimatedTime, setEstimatedTime] = useState(0)
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
   const [attachments, setAttachments] = useState([])
   const [error, setError] = useState('')
+  const [attachmentsVisible, setAttachmentsVisible] = useState(true)
 
   const { tasks, dispatch } = useTaskContext()
 
@@ -61,6 +62,10 @@ const AddTaskModal =  forwardRef(({ onSave }, ref) => {
     clearFields()
     setIsVisible(false)
   }
+  
+  const addAttachments = () => {
+    
+  }
 
   if(isVisible){
     return (
@@ -70,10 +75,21 @@ const AddTaskModal =  forwardRef(({ onSave }, ref) => {
            {error && <label className='error-label'>{error}</label>}
            <input placeholder='Task Title' className='input-field' value={title} onChange={e => {setTitle(e.target.value); setError('')}} />
             <textarea placeholder='Enter the task description here' className='text-area' value={description} onChange={e => setDescription(e.target.value)}/>
-            <div className='d-flex f-row gap-4 al-center mt-12'>
-              <label className='input-label'>Esimated Pomodoros</label>
-              <input type="number" className='input-number' min="0" max="999" value={estimatedTime} onChange={(e) => setEstimatedTime(e.target.value)}/>
+            <div className='d-flex f-row al-center mt-12 js-space-between'>
+              <div className='d-flex f-row gap-4 al-center'>
+                <label className='input-label'>Estimated Pomodoros</label>
+                <input type="number" className='input-number' min="0" max="999" value={estimatedTime} onChange={(e) => setEstimatedTime(e.target.value)}/>
+              </div>
+              {/* <div className='d-flex f-row al-center gap-4' onClick={addAttachments}>
+                <i className='fa fa-solid fa-plus' />
+                <h3 className='attachments-add-text'>Add attachments</h3>
+              </div> */}
             </div>
+            {/* {attachmentsVisible && 
+             <div className='add-attachments-wrapper'>
+                <h1>oi</h1>
+            </div>
+            } */}
           </div>
           <button className='btn-blue mt-16 submit-btn' onClick={handleAddNewTask}>Save</button>
         </div>
