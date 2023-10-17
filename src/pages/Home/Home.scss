@@ -1,3 +1,5 @@
+@import '../../styles/colors';
+
 .pomodoro-container{
   min-height: 100vh;
   height: fit-content;
@@ -31,7 +33,7 @@
 
 .dark{
   // background-color: #282C34;
-  background-color: #23293D;
+  background-color: $dark-bg;
   transition: 150ms ease-in-out;
 }
 

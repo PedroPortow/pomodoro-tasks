@@ -13,7 +13,7 @@ export const taskReducer = (state, action) => {
     case 'DELETE_ALL':
       return []
     case 'DELETE_UNIQUE':
-      return state.filter(task => task.id !== action.payload.id)
+      return state.filter(task => task.id !== action.payload.id);
     case 'CHECK':
       newState = [...state]
       newState.map((task) => {
@@ -24,12 +24,12 @@ export const taskReducer = (state, action) => {
       return newState
     case 'SAVE':
       newState = [...state]
+      console.log({action})
       newState.map((task) => {
-        if (task.id === action.payload.id) {
-          task.saved = action.payload.save
-          task.title = action.payload.title ? action.payload.title : `Tarefa ${state.length}`
-          task.estimated_time = action.payload.estimated_time ? action.payload.estimated_time : '-'
-          task.editable = action.payload.editable
+        if (task.id === action.payload.taskId) {
+          task.title = action.payload.title
+          task.estimated_time = action.payload.estimated_time && action.payload.estimated_time
+          task.edit = action.payload.edit
           task.description = action.payload.description
         }
       })
@@ -38,7 +38,7 @@ export const taskReducer = (state, action) => {
       newState = [...state]
       newState.map((task) => {
         if (task.id === action.payload.id) {
-          task.editable = action.payload.editable
+          task.edit = action.payload.edit
         }
       })
       return newState
@@ -48,7 +48,7 @@ export const taskReducer = (state, action) => {
       newState = [...state]
       newState.map((task) => {
         if (task.id === action.payload.id) {
-          task.editable = action.payload.editable
+          task.edit = action.payload.edit
         }
       })
       return newState

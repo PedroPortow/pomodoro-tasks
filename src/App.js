@@ -6,15 +6,7 @@ import { Home } from './pages/Home/Home.js'
 import { ApplicationContextProvider,  } from './context/ApplicationContext';
 import Login from './pages/Login/Login';
 import { UserContextProvider } from './context/UserContext';
-import {
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-  useLocation,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
+import Routes from './routes';
 
 const App = () => {
 
@@ -23,28 +15,13 @@ const App = () => {
       <ApplicationContextProvider>
         <TaskContextProvider>
           <ThemeContextProvider>
-             <Routes>
-              <Route path="/login" exact component={Login} />
-              <ProtectedRoute>
-                <Route path="/home" component={Home} />
-              </ProtectedRoute>
-            </Routes>
+            <Routes />
           </ThemeContextProvider>
         </TaskContextProvider>
       </ApplicationContextProvider>
     </UserContextProvider>
 
   );
-}
-
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token')
-
-  if(!token){
-    return <Navigate to="/login" replace />
-  }
-
-  return children
 }
 
 export default App;

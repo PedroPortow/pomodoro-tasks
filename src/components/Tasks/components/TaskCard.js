@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTaskContext } from '../../../context/TaskContext'
 import './TaskCard.scss'
+import EditTaskModal from '../../Modals/EditTaskModal/EditTaskModal'
 
-export const TaskCard = ({
-
-}) => {
-  const [isCollapsed, setIsCollapsed] = useState(false)
+export const TaskCard = ({taskId, title, estimatedTime, description, attachments, draggableIcon, taskChecked}) => {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [checked, setChecked] = useState(taskChecked);
+  
+  const { tasks, dispatch } = useTaskContext()
+  
+  const editTaskModalRef = useRef(null)
+  
 
   const mock = [
     {
@@ -15,50 +20,63 @@ export const TaskCard = ({
     link: "https://www.youtube.com/brksedu",
   }
 ]
-
-  const handleEdit = () => {
-    console.log("#TODO")
+  const handleDeleteTask = () => {
+    dispatch({ type: 'DELETE_UNIQUE', payload: { id: taskId } })
   }
-
-  const handleDelete = () => {
-    console.log('#TODO')
+  
+  const handleCheckTask = (e) => {
+    const checkEvent = e.target.checked
+    setChecked(checkEvent)
+    dispatch({ type: 'CHECK', payload: { id: taskId, check: checkEvent } })
   }
-
+  
   return (
     <div className='task-container'>
-      <div className={`task-card-wrapper ${isCollapsed ? "collapsed" : "opened"}`}>
-        <input type='checkbox' className='task-checkbox' />
+      <EditTaskModal
+        ref={editTaskModalRef} 
+        taskId={taskId}
+        taskTitle={title}
+        taskEstimatedTime={estimatedTime || null}
+        taskDescription={description}
+        taskAttachments={attachments}
+      />
+      {draggableIcon}
+      <div className={`task-card-wrapper ${isCollapsed ? 'collapsed' : 'opened'}`}>
+        <input type='checkbox' checked={checked} className='check-box' onChange={handleCheckTask} />
         <div className='task-content'>
           <div className='task-content-top-col'>
-            <h3 className='task-title'>Titulo bem foda da tarefa 1</h3>
-            <h3 className={`task-subtitle ${isCollapsed ? "text-ellipsis" : "opened-subtitle"}`}>asdaasdasadasdasdsadasdsdads lorem lorem lorem loasdasadasdasdsadasdsdads lorem lorem lorem losadasdasdsadasdsdads lorem lorem lorem lol</h3>
+            <h3 className={`${checked ? "text-line-trough" : ""} task-title`}>{title}</h3>
+            <h3 className={`${checked ? "text-line-trough" : ""} task-subtitle ${isCollapsed ? 'text-ellipsis' : 'opened-subtitle'}`}>
+              {description}
+            </h3>
           </div>
-          <div className='task-content-bottom-row'>
-            <i className="fa fa-link color-w" />
-            <h3 className='attachment-text'>{mock.length} Attachments</h3>
-          </div>
-          {!isCollapsed &&
-            <div className='attachments-wrapper'>
-              {mock.map((attachment, index) => {
-                return (
-                  <a href="www.google.com" className='redirect-link' target='_blank' key={index}>
-                    {attachment.link}
-                  </a>
-                )
-
-              })}
+          {attachments?.length > 0 && (
+            <div className='task-content-bottom-row'>
+              <i className='fa fa-link color-w' />
+              <h3 className='attachment-text'>{attachments.length} Attachments</h3>
+              {!isCollapsed && (
+                <div className='attachments-wrapper'>
+                  {attachments.map((attachment, index) => (
+                    <a href={attachment.link} className='redirect-link' target='_blank' key={index}>
+                      {attachment.link}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
-          }
+          )}
         </div>
-        <i className={`fa fa-chevron-${isCollapsed ? "down" : "up"} color-w chevron`}
-            onClick={() => setIsCollapsed(!isCollapsed)}
-        />
+        {description?.length > 33 || attachments?.length 
+          ? <i className={`fa fa-chevron-${isCollapsed ? 'down' : 'up'} color-w chevron`}
+              onClick={() => setIsCollapsed(!isCollapsed)}
+            />
+          : null
+        }
       </div>
       <div className='edit-buttons-col'>
-          <i className='fa fa-pencil' onClick={handleEdit} />
-          <i className='fa fa-trash-can' onClick={handleDelete} />
+        <i className='fa fa-pencil' onClick={() => editTaskModalRef.current.showModal()} />
+        <i className='fa fa-trash-can' onClick={handleDeleteTask} />
       </div>
     </div>
-
   )
 }

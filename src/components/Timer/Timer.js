@@ -5,7 +5,6 @@ import './Timer.scss'
 import { useApplicationContext } from '../../context/ApplicationContext';
 
 export const Timer = ({
-  handleTimeFinished,
   pomodoroMinutes,
   shortBreakMinutes,
   longBreakMinutes,
@@ -16,7 +15,8 @@ export const Timer = ({
   secondsWorked,
   setPausedTime,
   pausedTime,
-  timeCounterActive
+  timeCounterActive,
+  handleTimeFinished
 }) => {
   const { isPaused, setIsPaused, activeMode, setActiveMode, activeModeMinutes, modeMapping, setTotalMinutes, setMinutes, minutes, seconds, setSeconds,  } = useApplicationContext()
   const { isThemeDark } = useThemeContext()
@@ -42,13 +42,15 @@ export const Timer = ({
         } else {
           setSeconds(seconds - 1)
         }
-      }, 50)
+      }, 25)
     }
 
     return () => {
       clearInterval(interval)
     }
   }, [seconds, isPaused])
+  
+  console.log({activeMode})
 
   let minutesFormatted = minutes < 10 ? `0${minutes}` : minutes
   let secondsFormatted = seconds < 10 ? `0${seconds}` : seconds

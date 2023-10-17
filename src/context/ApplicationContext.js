@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { createContext, useState, useContext } from "react";
 
 const ApplicationContext = createContext();
@@ -20,12 +20,13 @@ export const ApplicationContextProvider = ({ children }) => {
   }
 
   const [activeMode, setActiveMode] = useState('POMODORO')
-  const [isPaused, setIsPaused] = useState(false)
+  const [isPaused, setIsPaused] = useState(true)
   const [minutes, setMinutes] = useState(modeMapping[activeMode].minutes)
   const [totalMinutes, setTotalMinutes] = useState(modeMapping[activeMode].minutes)
   const [seconds, setSeconds] = useState(0)
 
   const handleActiveModeChange = (mode) => {
+    setIsPaused(true)
     setActiveMode(mode)
     setTotalMinutes(modeMapping[mode].minutes)
     setMinutes(modeMapping[mode].minutes)

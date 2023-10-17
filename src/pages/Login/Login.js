@@ -8,7 +8,7 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState([])
-  const { user, setUser } = useUserContext()
+  const { user, setUser, setIsAuthenticated } = useUserContext()
 
   const handleLogin = () => {
     if(!validateFields)
@@ -25,7 +25,7 @@ function Login() {
       .then(res => {
         setUser(res.data.user)
         localStorage.setItem('token',res.headers.get("Authorization"))
-        window.location.href = ""
+        setIsAuthenticated(true)
       })
       .catch(error => {
         console.log(error)

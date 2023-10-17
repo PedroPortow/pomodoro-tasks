@@ -1,27 +1,28 @@
 import React from "react";
-import { ButtonPomodoro } from "../Buttons/ButtonPomodoro";
 import "./ModeButtons.scss";
-import { useApplicationContext } from "../../context/ApplicationContext";
+import { useApplicationContext } from "../../../context/ApplicationContext";
+import { ButtonPomodoro } from "../ButtonPomodro/ButtonPomodoro";
 
 function ModeButtons() {
 	const { activeMode, handleActiveModeChange} = useApplicationContext();
 
-	console.log({activeMode})
 	return (
 		<div className="buttons-row">
 			<ButtonPomodoro
-				text={"PAUSA CURTA"}
+				text={"SHORT PAUSE"}
 				onClick={() => handleActiveModeChange("SHORT_BREAK")}
+				active={activeMode === 'SHORT_BREAK'}
 			/>
 			<ButtonPomodoro
 				text={"POMODORO"}
 				onClick={() => handleActiveModeChange("POMODORO")}
+				active={activeMode === 'POMODORO'}
 			/>
 			<ButtonPomodoro
-				text={"PAUSA LONGA"}
+				text={"LONG BREAK"}
 				onClick={() => handleActiveModeChange("LONG_BREAK")}
+				active={activeMode === 'LONG_BREAK'}
 			/>
-			{/* <button className={`${activeMode}-btn button-background`} /> */}
 		</div>
 	);
 }

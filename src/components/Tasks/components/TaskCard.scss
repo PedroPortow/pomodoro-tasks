@@ -1,15 +1,23 @@
+@import '../../../styles/colors';
+
 .task-card-wrapper{
-  width: 452px;
+  width:  521px;
   display: flex;
   flex-direction: row;
   border-radius: 17px;
-  background: #131724;
+  background: $btn-dark;
   box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.25);
   padding: 21px 21px;
   gap: 14px;
-  // align-items: center;
-
-
+  border: 1px solid $btn-border;
+  
+  .check-box{
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border: 1px solid white;
+    align-self: center;
+  }
 
   .text-ellipsis{
     overflow: hidden;
@@ -25,10 +33,9 @@
   .chevron{
     cursor: pointer;
     font-weight: bold;
-    margin-top: 23px;
-    margin-left: 25px;
-
+    margin-left: 72px;
   }
+  
 
   .task-content{
     display: flex;
@@ -115,7 +122,7 @@
 .task-container{
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 525px;
   gap: 14px;
 
   .edit-buttons-col{

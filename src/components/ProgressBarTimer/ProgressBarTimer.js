@@ -3,11 +3,11 @@ import './ProgressBarTimer.scss'
 import { Timer } from '../Timer/Timer'
 import ProgressBar from '../ProgressBar/ProgressBar'
 
-function ProgressBarTimer() {
+function ProgressBarTimer({handleTimeFinished}) {
 
   return (
     <div className='progressbar-timer-wrapper'>
-      <Timer />
+      <Timer handleTimeFinished={handleTimeFinished}/>
       <ProgressBar  />
     </div>
   )
