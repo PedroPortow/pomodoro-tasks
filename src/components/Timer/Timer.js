@@ -42,7 +42,7 @@ export const Timer = ({
         } else {
           setSeconds(seconds - 1)
         }
-      }, 25)
+      }, 1000)
     }
 
     return () => {

@@ -7,7 +7,7 @@ import Modal from '../Modal';
 
 const AddTaskModal =  forwardRef(({ onSave }, ref) => {
   const [estimatedTime, setEstimatedTime] = useState(0)
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
   const [attachments, setAttachments] = useState([])
@@ -63,10 +63,6 @@ const AddTaskModal =  forwardRef(({ onSave }, ref) => {
     setIsVisible(false)
   }
   
-  const addAttachments = () => {
-    
-  }
-
   if(isVisible){
     return (
       <Modal title="Add new task" onCloseButtonClick={handleCloseModal}>

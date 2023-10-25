@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useReducer } from "react";
 import { createContext, useState, useContext } from "react";
 
@@ -9,71 +9,65 @@ export const taskReducer = (state, action) => {
 
   switch (action.type) {
     case 'ADD':
-      return [...state, action.payload];
+      newState = [...state, action.payload];
+      localStorage.setItem('tasks', JSON.stringify(newState));
+      return newState;
     case 'DELETE_ALL':
-      return []
+      localStorage.removeItem('tasks');
+      return [];
     case 'DELETE_UNIQUE':
-      return state.filter(task => task.id !== action.payload.id);
-    case 'CHECK':
-      newState = [...state]
-      newState.map((task) => {
-        if (task.id === action.payload.id) {
-          task.checked = action.payload.check
-        }
-      })
-      return newState
-    case 'SAVE':
-      newState = [...state]
-      console.log({action})
-      newState.map((task) => {
-        if (task.id === action.payload.taskId) {
-          task.title = action.payload.title
-          task.estimated_time = action.payload.estimated_time && action.payload.estimated_time
-          task.edit = action.payload.edit
-          task.description = action.payload.description
-        }
-      })
-      return newState
-    case 'EDIT':
-      newState = [...state]
-      newState.map((task) => {
-        if (task.id === action.payload.id) {
-          task.edit = action.payload.edit
-        }
-      })
-      return newState
+      newState = state.filter(task => task.id !== action.payload.id);
+      localStorage.setItem('tasks', JSON.stringify(newState));
+      return newState;
     case 'REORDER':
-      return action.payload.data
-    case 'POMODOROS_SPENT':
-      newState = [...state]
-      newState.map((task) => {
-        if (task.id === action.payload.id) {
-          task.edit = action.payload.edit
-        }
-      })
-      return newState
+      localStorage.setItem('tasks', JSON.stringify(action.payload.data));
+      return action.payload.data;
+    case 'REORDER_TO_LAST':
+      const taskId = action.payload.id;
+      const taskToMove = state.find(task => task.id === taskId);
+      
+      newState = state.filter(task => task.id !== taskId);
+      newState.push(taskToMove);
+
+      localStorage.setItem('tasks', JSON.stringify(newState));
+      return newState;
+    case 'CHECK':
+        const { id, check } = action.payload;
+  
+        newState = state.map(task => {
+          if (task.id === id) {
+            return { ...task, checked: check };
+          }
+          return task;
+        });
+  
+        localStorage.setItem('tasks', JSON.stringify(newState));
+        return newState;
     default:
-      return state
+      return state;
   }
 };
 
 
+
 export const TaskContextProvider = ({ children }) => {
-  const [tasks, dispatch] = useReducer(taskReducer, [{
-    title: "oi",
-    description: "asd",
-    id: 1,
-  }])
-  const [selectedTask, setSelectedTask] = useState({})
+  const [tasks, dispatch] = useReducer(taskReducer, [])
+  
+  console.log({tasks})
+  
+  useMemo(() => {
+    const storedTasks = localStorage.getItem('tasks');
+    
+    if (storedTasks) {
+      dispatch({ type: 'REORDER', payload: { data: JSON.parse(storedTasks) } });
+    }
+  }, []);
 
   return (
     <TaskContext.Provider
       value={{
         tasks,
         dispatch,
-        selectedTask,
-        setSelectedTask
-
       }}
     >
       {children}

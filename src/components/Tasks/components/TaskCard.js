@@ -7,7 +7,9 @@ export const TaskCard = ({taskId, title, estimatedTime, description, attachments
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [checked, setChecked] = useState(taskChecked);
   
-  const { tasks, dispatch } = useTaskContext()
+  console.log({taskChecked})
+  
+  const { dispatch } = useTaskContext()
   
   const editTaskModalRef = useRef(null)
   
@@ -28,6 +30,14 @@ export const TaskCard = ({taskId, title, estimatedTime, description, attachments
     const checkEvent = e.target.checked
     setChecked(checkEvent)
     dispatch({ type: 'CHECK', payload: { id: taskId, check: checkEvent } })
+    
+    if(checkEvent){
+      setTimeout(() => {
+        dispatch({ type: 'REORDER_TO_LAST', payload: { id: taskId } });
+      }, 1000); 
+    }
+  
+    
   }
   
   return (

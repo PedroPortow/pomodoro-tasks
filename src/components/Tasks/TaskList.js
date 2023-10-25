@@ -93,7 +93,7 @@ export const TaskList = () => {
           )}
         </Droppable>
       </DragDropContext>
-      <button className='add-task-btn' onClick={() => addTaskModalRef.current.showModal()}>Adicionar Tarefa</button>
+      <button className='add-task-btn' onClick={() => addTaskModalRef.current.showModal()}>Add Task</button>
     </>
   )
 }
