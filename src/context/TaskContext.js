@@ -53,8 +53,6 @@ export const taskReducer = (state, action) => {
 export const TaskContextProvider = ({ children }) => {
   const [tasks, dispatch] = useReducer(taskReducer, [])
   
-  console.log({tasks})
-  
   useMemo(() => {
     const storedTasks = localStorage.getItem('tasks');
     

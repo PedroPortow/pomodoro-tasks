@@ -1,92 +1,76 @@
-import React, { useRef, useState } from 'react'
-import { useTaskContext } from '../../../context/TaskContext'
-import './TaskCard.scss'
-import EditTaskModal from '../../Modals/EditTaskModal/EditTaskModal'
+import React, { useRef, useState } from 'react';
+import { useTaskContext } from '../../../context/TaskContext';
+import { v4 as uuidv4 } from 'uuid';
+import './TaskCard.scss';
+import EditTaskModal from '../../Modals/EditTaskModal/EditTaskModal';
+import { useEffect } from 'react';
 
-export const TaskCard = ({taskId, title, estimatedTime, description, attachments, draggableIcon, taskChecked}) => {
+export const TaskCard = ({ taskId, title, estimatedTime, description, attachments, draggableIcon, taskChecked, focus, onAddTask }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [checked, setChecked] = useState(taskChecked);
-  
-  console.log({taskChecked})
-  
-  const { dispatch } = useTaskContext()
-  
-  const editTaskModalRef = useRef(null)
-  
+  const [taskTitle, setTaskTitle] = useState(title); // Estado para gerenciar o título
 
-  const mock = [
-    {
-    link: "https://www.figma.com/file/HXAONeyeRMcsjoKopAH7Og/Untitled?type=design&node-id=119-86&mode=design&t=0j6ETT73f1x2W5XL-0",
-  },
-    {
-    link: "https://www.youtube.com/brksedu",
-  }
-]
+  const { dispatch } = useTaskContext();
+  const editTaskModalRef = useRef(null);
+
+  const inputRef = useRef(null)
+
   const handleDeleteTask = () => {
-    dispatch({ type: 'DELETE_UNIQUE', payload: { id: taskId } })
-  }
-  
+    dispatch({ type: 'DELETE_UNIQUE', payload: { id: taskId } });
+  };
+
+  useEffect(() => {
+    if (focus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [focus]);
+
+
   const handleCheckTask = (e) => {
-    const checkEvent = e.target.checked
-    setChecked(checkEvent)
-    dispatch({ type: 'CHECK', payload: { id: taskId, check: checkEvent } })
-    
-    if(checkEvent){
+    const checkEvent = e.target.checked;
+    setChecked(checkEvent);
+    dispatch({ type: 'CHECK', payload: { id: taskId, check: checkEvent } });
+
+    if (checkEvent) {
       setTimeout(() => {
         dispatch({ type: 'REORDER_TO_LAST', payload: { id: taskId } });
-      }, 1000); 
+      }, 1000);
     }
-  
-    
-  }
-  
+  };
+
+  const handleUpdateTask = (e) => {
+    const newTitle = e.target.value;
+    setTaskTitle(newTitle);
+  };
+
+
+  const handleKeyPress = (e) => {
+    const newTaskUuid = uuidv4()
+    if (e.key === 'Enter') {
+      dispatch({ type: 'SAVE', payload: { taskId, title: taskTitle } });
+      dispatch({
+        type: 'ADD', payload: {
+          id: newTaskUuid ,
+          checked: false
+        }
+      })
+
+      onAddTask(newTaskUuid)
+      e.preventDefault();
+    }
+  };
+
+
   return (
     <div className='task-container'>
-      <EditTaskModal
-        ref={editTaskModalRef} 
-        taskId={taskId}
-        taskTitle={title}
-        taskEstimatedTime={estimatedTime || null}
-        taskDescription={description}
-        taskAttachments={attachments}
-      />
       {draggableIcon}
       <div className={`task-card-wrapper ${isCollapsed ? 'collapsed' : 'opened'}`}>
         <input type='checkbox' checked={checked} className='check-box' onChange={handleCheckTask} />
         <div className='task-content'>
-          <div className='task-content-top-col'>
-            <h3 className={`${checked ? "text-line-trough" : ""} task-title`}>{title}</h3>
-            <h3 className={`${checked ? "text-line-trough" : ""} task-subtitle ${isCollapsed ? 'text-ellipsis' : 'opened-subtitle'}`}>
-              {description}
-            </h3>
-          </div>
-          {attachments?.length > 0 && (
-            <div className='task-content-bottom-row'>
-              <i className='fa fa-link color-w' />
-              <h3 className='attachment-text'>{attachments.length} Attachments</h3>
-              {!isCollapsed && (
-                <div className='attachments-wrapper'>
-                  {attachments.map((attachment, index) => (
-                    <a href={attachment.link} className='redirect-link' target='_blank' key={index}>
-                      {attachment.link}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+           <input className='input' onChange={handleUpdateTask} value={taskTitle}  onKeyPress={handleKeyPress} ref={inputRef} />
         </div>
-        {description?.length > 33 || attachments?.length 
-          ? <i className={`fa fa-chevron-${isCollapsed ? 'down' : 'up'} color-w chevron`}
-              onClick={() => setIsCollapsed(!isCollapsed)}
-            />
-          : null
-        }
       </div>
-      <div className='edit-buttons-col'>
-        <i className='fa fa-pencil' onClick={() => editTaskModalRef.current.showModal()} />
-        <i className='fa fa-trash-can' onClick={handleDeleteTask} />
-      </div>
+      <i className='fa fa-trash-can' onClick={handleDeleteTask} />
     </div>
-  )
-}
+  );
+};

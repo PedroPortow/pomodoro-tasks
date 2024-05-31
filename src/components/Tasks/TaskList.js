@@ -1,38 +1,16 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { useTaskContext } from '../../context/TaskContext'
 import { TaskCard } from './components/TaskCard'
 import './TaskList.scss'
 import AddTaskModal from '../Modals/AddTaskModal/AddTaskModal'
+import { useState } from 'react'
 
 export const TaskList = () => {
   const { tasks, dispatch } = useTaskContext()
-  const [taskToEdit, setTaskToEdit] = useState({})
-  
+  const [focusedTaskId, setFocusedTaskId] = useState()
+
   const addTaskModalRef = useRef(null)
-
-  const handleDeleteTask = (id) => {
-    dispatch({ type: 'DELETE_UNIQUE', payload: { id: id } })
-  }
-
-  const handleCheckTask = (id) => {
-    dispatch({ type: 'CHECK', payload: { id: id, check: true } })
-  }
-
-  // const handleSaveTask = (id, taskTitle, estimatedTime, taskDescription) => {
-  //   dispatch({
-  //     type: 'SAVE', payload: {
-  //       id: id,
-  //       save: true,
-  //       title: taskTitle,
-  //       estimated_time: estimatedTime,
-  //       description: taskDescription,
-  //       editable: false,
-  //     }
-  //   })
-  // }
-
- 
 
   const onDragEnd = (result) => {
     const items = Array.from(tasks);
@@ -42,9 +20,9 @@ export const TaskList = () => {
     items.splice(result.destination.index, 0, reorderedItem);
     dispatch({ type: 'REORDER', payload: { data: items } })
   };
-  
-  console.log({tasks})
-  
+
+  console.log({focusedTaskId})
+
   return (
     <>
       <AddTaskModal ref={addTaskModalRef} />
@@ -69,6 +47,7 @@ export const TaskList = () => {
                           ref={provided.innerRef}
                         >
                           <TaskCard
+                            onAddTask={(id) => setFocusedTaskId(id)}
                             key={task.id}
                             taskId={task.id}
                             title={task?.title}
@@ -80,7 +59,7 @@ export const TaskList = () => {
                             }
                             attachments={task.attachments}
                             taskChecked={task.checked}
-                          // setSelected={setTaskSelected}
+                            focus={task.id == focusedTaskId}
                           />
                         </div>
                       )
@@ -93,7 +72,9 @@ export const TaskList = () => {
           )}
         </Droppable>
       </DragDropContext>
-      <button className='add-task-btn' onClick={() => addTaskModalRef.current.showModal()}>Add Task</button>
+      <button className='add-task-btn' onClick={() => addTaskModalRef.current.showModal()}>
+        Add Task
+      </button>
     </>
   )
 }

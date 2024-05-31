@@ -45,10 +45,10 @@ const EditTaskModal =  forwardRef(({ taskId, taskEstimatedTime, taskTitle, taskD
             {error && <label className='error-label'>{error}</label>}
             <input placeholder='Task Title' className='input-field' value={title} onChange={e => {setTitle(e.target.value); setError('')}} />
             <textarea placeholder='Enter the task description here' className='text-area' value={description} onChange={e => setDescription(e.target.value)}/>
-            <div className='d-flex f-row gap-4 al-center mt-12'>
+            {/* <div className='d-flex f-row gap-4 al-center mt-12'>
               <label className='input-label'>Estimated Pomodoros</label>
               <input type="number" className='input-number' min="0" max="999" value={estimatedTime} onChange={(e) => setEstimatedTime(e.target.value)}/>
-            </div>
+            </div> */}
           </div>
           <button className='btn-blue mt-16 submit-btn' onClick={handleUpdateTask}>Save</button>
         </div>

@@ -1,28 +1,22 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { motion } from "framer-motion";
+import React, { useEffect } from 'react'
 import './Home.scss'
 import { useThemeContext } from '../../context/ThemeContext'
-import { Timer } from '../../components/Timer/Timer'
-import { ConfigMenu } from '../../components/ConfigMenu/ConfigMenu'
-import { TaskList, Tasks } from '../../components/Tasks/TaskList'
-import { useTaskContext } from '../../context/TaskContext'
-import { Switch } from '../../components/Switcher/Switch/Switch';
+import { TaskList } from '../../components/Tasks/TaskList'
 import ModeButtons from '../../components/Buttons/ModeButtons/ModeButtons';
 import { useApplicationContext } from '../../context/ApplicationContext';
 import ProgressBarTimer from '../../components/ProgressBarTimer/ProgressBarTimer';
-import { TaskCard } from '../../components/Tasks/components/TaskCard';
 import { ButtonPlay } from '../../components/Buttons/ButtonPlay/ButtonPlay';
 
 export const Home = () => {
   const { isThemeDark } = useThemeContext()
-  const { activeMode, setActiveMode, isPaused, setIsPaused, handleActiveModeChange } = useApplicationContext()
+  const { activeMode, handleActiveModeChange } = useApplicationContext()
 
   useEffect(() => {
     if (Notification.permission !== "granted") {
       Notification.requestPermission()
         .then((response) => {
           if (response === "granted") {
-            const notify = new Notification("OIOIO")
+            const notify = new Notification("Alertaa")
           } else {
             console.log("Notificação foi rejeitada")
           }
@@ -31,7 +25,6 @@ export const Home = () => {
   }, [])
 
   const handleTimeFinished = () => {
-    console.log("chegou")
     if (activeMode === 'POMODORO') {
       sendNotification(activeMode)
       handleActiveModeChange("SHORT_BREAK")

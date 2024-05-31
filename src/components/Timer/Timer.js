@@ -1,36 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { motion } from "framer-motion";
+import React, { useEffect } from 'react'
 import { useThemeContext } from '../../context/ThemeContext'
 import './Timer.scss'
 import { useApplicationContext } from '../../context/ApplicationContext';
 
 export const Timer = ({
-  pomodoroMinutes,
-  shortBreakMinutes,
-  longBreakMinutes,
-  workedTime,
-  setMinutesWorked,
-  minutesWorked,
-  setSecondsWorked,
-  secondsWorked,
-  setPausedTime,
-  pausedTime,
-  timeCounterActive,
   handleTimeFinished
 }) => {
-  const { isPaused, setIsPaused, activeMode, setActiveMode, activeModeMinutes, modeMapping, setTotalMinutes, setMinutes, minutes, seconds, setSeconds,  } = useApplicationContext()
+  const { isPaused, activeMode, setMinutes, minutes, seconds, setSeconds  } = useApplicationContext()
   const { isThemeDark } = useThemeContext()
-
 
   useEffect(() => {
     let interval;
 
-    console.log({ secondsWorked })
     if (!isPaused) {
       interval = setInterval(() => {
         clearInterval(interval)
 
-        //Lógica Timer
         if (seconds === 0) {
           if (minutes !== 0) {
             setSeconds(59)
@@ -50,25 +35,15 @@ export const Timer = ({
     }
   }, [seconds, isPaused])
   
-  console.log({activeMode})
-
   let minutesFormatted = minutes < 10 ? `0${minutes}` : minutes
   let secondsFormatted = seconds < 10 ? `0${seconds}` : seconds
 
   useEffect(() => {
     if (!isPaused) {
-      switch (activeMode) {
-        case 'POMODORO':
-          document.title = `Pomodoro! - ${minutesFormatted}:${secondsFormatted} `
-          break;
-        case 'SHORT_BREAK':
-          document.title = `Pausinha! - ${minutesFormatted}:${secondsFormatted} `
-          break;
-        case 'LONG_BREAK':
-          document.title = `Pausão! - ${minutesFormatted}:${secondsFormatted} `
-          break;
-        default:
-          return null;
+      if(activeMode == "POMODORO"){
+        document.title = `Pomodoro! - ${minutesFormatted}:${secondsFormatted} `
+      } else {
+        document.title = `Break! - ${minutesFormatted}:${secondsFormatted} `
       }
     } else {
       document.title = 'Pomodoro!'

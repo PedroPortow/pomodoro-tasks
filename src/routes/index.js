@@ -59,7 +59,6 @@ const Routes = () => {
     ...routesForAuthenticatedOnly,
   ]);
 
-  console.log({token})
   return <RouterProvider router={router} />;
 };
 
