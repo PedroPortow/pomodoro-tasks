@@ -5,7 +5,7 @@ import './TaskCard.scss';
 import EditTaskModal from '../../Modals/EditTaskModal/EditTaskModal';
 import { useEffect } from 'react';
 
-export const TaskCard = ({ taskId, title, estimatedTime, description, attachments, draggableIcon, taskChecked, focus, onAddTask }) => {
+export const TaskCard = ({ taskId, title, draggableIcon, taskChecked, focus, onAddTask, index }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [checked, setChecked] = useState(taskChecked);
   const [taskTitle, setTaskTitle] = useState(title); // Estado para gerenciar o título
@@ -50,8 +50,11 @@ export const TaskCard = ({ taskId, title, estimatedTime, description, attachment
       dispatch({ type: 'SAVE', payload: { taskId, title: taskTitle } });
       dispatch({
         type: 'ADD', payload: {
-          id: newTaskUuid ,
-          checked: false
+          task: {
+            id: newTaskUuid,
+            checked: false,
+          },
+          index
         }
       })
 
@@ -63,14 +66,14 @@ export const TaskCard = ({ taskId, title, estimatedTime, description, attachment
 
   return (
     <div className='task-container'>
-      {draggableIcon}
       <div className={`task-card-wrapper ${isCollapsed ? 'collapsed' : 'opened'}`}>
+        {draggableIcon}
         <input type='checkbox' checked={checked} className='check-box' onChange={handleCheckTask} />
         <div className='task-content'>
            <input className='input' onChange={handleUpdateTask} value={taskTitle}  onKeyPress={handleKeyPress} ref={inputRef} />
         </div>
+        <i className='fa fa-trash-can' onClick={handleDeleteTask} />
       </div>
-      <i className='fa fa-trash-can' onClick={handleDeleteTask} />
     </div>
   );
 };

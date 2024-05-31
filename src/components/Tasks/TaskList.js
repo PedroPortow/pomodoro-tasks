@@ -53,6 +53,7 @@ export const TaskList = () => {
                             title={task?.title}
                             estimatedTime={task?.estimated_time}
                             description={task?.description}
+                            index={index}
                             draggableIcon={
                               <i className="fa-solid fa-grip-vertical color-bg"
                                 {...provided.dragHandleProps} />

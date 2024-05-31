@@ -1,3 +1,5 @@
+@import '../../styles/colors';
+
 .task-cards-wrapper{
   display: flex;
   flex-direction: column;
@@ -8,15 +10,14 @@
 }
 
 .add-task-btn{
-  width: 100%;
   padding: 15px;
-  border-radius: 15px;
-  background-color: #6171DE;
+  border-radius: 8px;
+  background-color: $orange-bg;
   color: white;
   border: none;
   outline: none;
   margin-top: 16px;
-  cursor:pointer;
+  cursor :pointer;
 }
 
 

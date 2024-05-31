@@ -9,7 +9,14 @@ export const taskReducer = (state, action) => {
 
   switch (action.type) {
     case 'ADD':
-      newState = [...state, action.payload];
+      const newTask = action.payload.task;
+      const insertIndex = action.payload.index + 1;
+      
+      newState = [
+        ...state.slice(0, insertIndex),
+        newTask,
+        ...state.slice(insertIndex),
+      ];
       localStorage.setItem('tasks', JSON.stringify(newState));
       return newState;
     case 'DELETE_ALL':

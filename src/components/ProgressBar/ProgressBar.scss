@@ -1,7 +1,9 @@
+@import '../../styles/colors';
+
 .progressbar-load{
   width: 25%;
   border-radius: 18px;
-  background: #8EBBFF;
+  background: $orange-bg;
   width: 100%;
   height: 6px;
   position: relative;
