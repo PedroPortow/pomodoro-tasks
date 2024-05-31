@@ -6,6 +6,11 @@
   gap: 14px;
   align-items: center;
 
+  .hover {
+    background-color: #333; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  }
+
   .task-card-wrapper{
     width: 100%;
     display: flex;
@@ -16,10 +21,7 @@
     border-radius: 8px;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
   
-    &:hover {
-      background-color: #333; 
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    }
+ 
   
     .check-box {
       -webkit-appearance: none; /* Remover a aparência padrão do Chrome/Safari */

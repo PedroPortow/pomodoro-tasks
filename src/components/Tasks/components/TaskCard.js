@@ -9,6 +9,7 @@ export const TaskCard = ({ taskId, title, draggableIcon, taskChecked, focus, onA
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [checked, setChecked] = useState(taskChecked);
   const [taskTitle, setTaskTitle] = useState(title); // Estado para gerenciar o título
+  const [isHovered, setIsHovered] = useState(false)
 
   const { dispatch } = useTaskContext();
   const editTaskModalRef = useRef(null);
@@ -22,6 +23,7 @@ export const TaskCard = ({ taskId, title, draggableIcon, taskChecked, focus, onA
   useEffect(() => {
     if (focus && inputRef.current) {
       inputRef.current.focus();
+      setIsHovered(true);
     }
   }, [focus]);
 
@@ -63,17 +65,32 @@ export const TaskCard = ({ taskId, title, draggableIcon, taskChecked, focus, onA
     }
   };
 
+  const handleFocus = () => {
+    setIsHovered(true);
+  };
+
+  const handleBlur = () => {
+    setIsHovered(false);
+  };
 
   return (
-    <div className='task-container'>
-      <div className={`task-card-wrapper ${isCollapsed ? 'collapsed' : 'opened'}`}>
-        {draggableIcon}
-        <input type='checkbox' checked={checked} className='check-box' onChange={handleCheckTask} />
-        <div className='task-content'>
-           <input className='input' onChange={handleUpdateTask} value={taskTitle}  onKeyPress={handleKeyPress} ref={inputRef} />
-        </div>
-        <i className='fa fa-trash-can' onClick={handleDeleteTask} />
+    <div className='task-container' onMouseOver={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <div className={`task-card-wrapper ${isCollapsed ? 'collapsed' : 'opened'} ${isHovered ? 'hover' : ''}`}>
+      {draggableIcon}
+      <input type='checkbox' checked={checked} className='check-box' onChange={handleCheckTask} />
+      <div className='task-content'>
+        <input
+          className='input'
+          onChange={handleUpdateTask}
+          value={taskTitle}
+          onKeyPress={handleKeyPress}
+          ref={inputRef}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
       </div>
+      <i className='fa fa-trash-can' onClick={handleDeleteTask} />
     </div>
+  </div>
   );
 };
