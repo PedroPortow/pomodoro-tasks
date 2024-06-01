@@ -1,16 +1,15 @@
 import React, { useRef } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { useTaskContext } from '../../context/TaskContext'
+import { ACTIONS, useTaskContext } from '../../context/TaskContext'
 import { TaskCard } from './components/TaskCard'
 import './TaskList.scss'
-import AddTaskModal from '../Modals/AddTaskModal/AddTaskModal'
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 
 export const TaskList = () => {
   const { tasks, dispatch } = useTaskContext()
   const [focusedTaskId, setFocusedTaskId] = useState()
 
-  const addTaskModalRef = useRef(null)
 
   const onDragEnd = (result) => {
     const items = Array.from(tasks);
@@ -18,14 +17,23 @@ export const TaskList = () => {
     items[result.destination.index].position = result.source.index;
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    dispatch({ type: 'REORDER', payload: { data: items } })
+    dispatch({ type: ACTIONS.REORDER, payload: { data: items } })
   };
 
-  console.log({focusedTaskId})
+  const handleAddTask = () => {
+    const newTaskUuid = uuidv4()
+
+    dispatch({
+      type: ACTIONS.ADD_TASK,
+      payload: {
+        index: tasks.length + 1
+      }
+    })
+    setFocusedTaskId(newTaskUuid)
+  }
 
   return (
     <>
-      <AddTaskModal ref={addTaskModalRef} />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="list" >
           {(provided) => (
@@ -34,7 +42,7 @@ export const TaskList = () => {
               ref={provided.innerRef}
               className='task-cards-wrapper'
             >
-              {tasks.map((task, index) => {
+              {tasks.length && tasks.map((task, index) => {
                 return (
                   <Draggable
                     key={index}
@@ -47,20 +55,15 @@ export const TaskList = () => {
                           ref={provided.innerRef}
                         >
                           <TaskCard
-                            onAddTask={(id) => setFocusedTaskId(id)}
-                            key={task.id}
-                            taskId={task.id}
-                            title={task?.title}
-                            estimatedTime={task?.estimated_time}
-                            description={task?.description}
+                            key={task?.id || uuidv4()}
                             index={index}
+                            task={task}
                             draggableIcon={
                               <i className="fa-solid fa-grip-vertical color-bg"
                                 {...provided.dragHandleProps} />
                             }
-                            attachments={task.attachments}
-                            taskChecked={task.checked}
-                            focus={task.id == focusedTaskId}
+                            focus={task?.id == focusedTaskId}
+                            onAddTask={(id) => setFocusedTaskId(id)}
                           />
                         </div>
                       )
@@ -73,7 +76,7 @@ export const TaskList = () => {
           )}
         </Droppable>
       </DragDropContext>
-      <button className='add-task-btn' onClick={() => addTaskModalRef.current.showModal()}>
+      <button className='add-task-btn' onClick={handleAddTask}>
         Add Task
       </button>
     </>

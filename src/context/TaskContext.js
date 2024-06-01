@@ -1,80 +1,96 @@
 import React, { useMemo } from "react";
 import { useReducer } from "react";
-import { createContext, useState, useContext } from "react";
+import { createContext, useContext } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
+export const ACTIONS = {
+  ADD_TASK: 'ADD_TASK',
+  UPDATE_TASK: 'UPDATE_TASK',
+  REMOVE_TASK: 'REMOVE_TASK',
+  CLEAR_TASKS: 'CLEAR_TASKS',
+  CHECK: 'CHECK',
+  REORDER: 'REORDER'
+}
 
 const TaskContext = createContext();
 
-export const taskReducer = (state, action) => {
+const addToLocalStorage = (key, state) => {
+  localStorage.setItem(key, JSON.stringify(state));
+}
+
+const buildNewTask = ({ id = uuidv4() }) => ({
+  id,
+  title: '',
+  checked: false
+})
+
+export const taskReducer = (state, { type, payload }) => {
   let newState;
 
-  switch (action.type) {
-    case 'ADD':
-      const newTask = action.payload.task;
-      const insertIndex = action.payload.index + 1;
-      
+  switch (type) {
+    case ACTIONS.ADD_TASK:
+      const insertIndex = payload.index;
+
+      console.log({payload})
+
       newState = [
         ...state.slice(0, insertIndex),
-        newTask,
+       buildNewTask({ id: payload.id }),
         ...state.slice(insertIndex),
       ];
-      localStorage.setItem('tasks', JSON.stringify(newState));
-      return newState;
-    case 'DELETE_ALL':
-      localStorage.removeItem('tasks');
-      return [];
-    case 'DELETE_UNIQUE':
-      newState = state.filter(task => task.id !== action.payload.id);
-      localStorage.setItem('tasks', JSON.stringify(newState));
-      return newState;
-    case 'REORDER':
-      localStorage.setItem('tasks', JSON.stringify(action.payload.data));
-      return action.payload.data;
-    case 'REORDER_TO_LAST':
-      const taskId = action.payload.id;
-      const taskToMove = state.find(task => task.id === taskId);
-      
-      newState = state.filter(task => task.id !== taskId);
-      newState.push(taskToMove);
 
-      localStorage.setItem('tasks', JSON.stringify(newState));
+      addToLocalStorage('tasks', newState);
+
       return newState;
-    case 'CHECK':
-        const { id, check } = action.payload;
-  
-        newState = state.map(task => {
-          if (task.id === id) {
-            return { ...task, checked: check };
-          }
-          return task;
-        });
-  
-        localStorage.setItem('tasks', JSON.stringify(newState));
-        return newState;
+
+    case ACTIONS.UPDATE_TASK:
+      newState = state.map(task =>
+        task.id === payload.id ? { ...task, ...payload.updates } : task
+      );
+
+      addToLocalStorage('tasks', newState);
+      return newState;
+
+    case ACTIONS.REMOVE_TASK:
+      newState = state.filter(task => task.id !== payload.id);
+      addToLocalStorage('tasks', newState);
+      return newState;
+
+    case ACTIONS.CLEAR_TASKS:
+      newState = [];
+      addToLocalStorage('tasks', newState);
+      return newState;
+
+    case ACTIONS.CHECK:
+      newState = state.map(task =>
+        task.id === payload.id ? { ...task, checked: payload.check } : task
+      );
+      addToLocalStorage('tasks', newState);
+      return newState;
+
+    case ACTIONS.REORDER:
+      newState = payload.data;
+
+      addToLocalStorage('tasks', newState);
+      return newState;
+
     default:
       return state;
   }
 };
 
-
-
 export const TaskContextProvider = ({ children }) => {
-  const [tasks, dispatch] = useReducer(taskReducer, [])
-  
+  const [tasks, dispatch] = useReducer(taskReducer, []);
+
   useMemo(() => {
     const storedTasks = localStorage.getItem('tasks');
-    
     if (storedTasks) {
-      dispatch({ type: 'REORDER', payload: { data: JSON.parse(storedTasks) } });
+      dispatch({ type: ACTIONS.REORDER, payload: { data: JSON.parse(storedTasks) } });
     }
   }, []);
 
   return (
-    <TaskContext.Provider
-      value={{
-        tasks,
-        dispatch,
-      }}
-    >
+    <TaskContext.Provider value={{ tasks, dispatch }}>
       {children}
     </TaskContext.Provider>
   );

@@ -1,23 +1,27 @@
 import React, { useRef, useState } from 'react';
-import { useTaskContext } from '../../../context/TaskContext';
+import { ACTIONS, useTaskContext } from '../../../context/TaskContext';
 import { v4 as uuidv4 } from 'uuid';
 import './TaskCard.scss';
 import EditTaskModal from '../../Modals/EditTaskModal/EditTaskModal';
 import { useEffect } from 'react';
 
-export const TaskCard = ({ taskId, title, draggableIcon, taskChecked, focus, onAddTask, index }) => {
+export const TaskCard = ({ task, draggableIcon, taskChecked, focus, onAddTask, index }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [checked, setChecked] = useState(taskChecked);
-  const [taskTitle, setTaskTitle] = useState(title); // Estado para gerenciar o título
   const [isHovered, setIsHovered] = useState(false)
 
   const { dispatch } = useTaskContext();
-  const editTaskModalRef = useRef(null);
 
   const inputRef = useRef(null)
 
   const handleDeleteTask = () => {
-    dispatch({ type: 'DELETE_UNIQUE', payload: { id: taskId } });
+    console.log({task})
+    dispatch({
+      type: ACTIONS.REMOVE_TASK,
+      payload: {
+        id: task.id
+      }
+    });
   };
 
   useEffect(() => {
@@ -31,32 +35,51 @@ export const TaskCard = ({ taskId, title, draggableIcon, taskChecked, focus, onA
   const handleCheckTask = (e) => {
     const checkEvent = e.target.checked;
     setChecked(checkEvent);
-    dispatch({ type: 'CHECK', payload: { id: taskId, check: checkEvent } });
+
+    dispatch({
+      type: ACTIONS.CHECK,
+      payload: {
+        id: task.id,
+        check: checkEvent
+      }
+    });
 
     if (checkEvent) {
       setTimeout(() => {
-        dispatch({ type: 'REORDER_TO_LAST', payload: { id: taskId } });
+        dispatch({
+          type: ACTIONS.REORDER,
+          payload: {
+            id: task.id
+          }
+        });
       }, 1000);
     }
   };
 
   const handleUpdateTask = (e) => {
-    const newTitle = e.target.value;
-    setTaskTitle(newTitle);
+    const { value } = e.target;
+
+    dispatch({
+      type: ACTIONS.UPDATE_TASK,
+      payload: {
+        id: task.id,
+        updates: {
+          title: value
+        }
+      }
+    })
   };
 
 
   const handleKeyPress = (e) => {
     const newTaskUuid = uuidv4()
+
     if (e.key === 'Enter') {
-      dispatch({ type: 'SAVE', payload: { taskId, title: taskTitle } });
       dispatch({
-        type: 'ADD', payload: {
-          task: {
-            id: newTaskUuid,
-            checked: false,
-          },
-          index
+        type: ACTIONS.ADD_TASK,
+        payload: {
+          id: newTaskUuid,
+          index: index + 1
         }
       })
 
@@ -82,7 +105,7 @@ export const TaskCard = ({ taskId, title, draggableIcon, taskChecked, focus, onA
         <input
           className='input'
           onChange={handleUpdateTask}
-          value={taskTitle}
+          value={task?.title}
           onKeyPress={handleKeyPress}
           ref={inputRef}
           onFocus={handleFocus}

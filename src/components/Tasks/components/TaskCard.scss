@@ -22,21 +22,32 @@
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
   
  
-  
     .check-box {
-      -webkit-appearance: none; /* Remover a aparência padrão do Chrome/Safari */
-      -moz-appearance: none; /* Remover a aparência padrão do Firefox */
-      appearance: none; /* Remover a aparência padrão */
-      width: 20px; /* Largura do checkbox */
-      height: 20px; /* Altura do checkbox */
-      border: 2px solid gray; /* Bordas cinzas */
-      border-radius: 6px; /* Bordas arredondadas */
-      background-color: transparent; /* Fundo transparente */
-      cursor: pointer; /* Cursor como ponteiro para indicar clicabilidade */
+      appearance: none;
+      width: 25px;
+      height: 20px;
+      cursor: pointer;
+      border: 2px solid #ccc; /* Use uma cor hexadecimal ou RGB */
+      border-radius: 8px;
+      display: inline-block;
+      position: relative;
     }
-  
+    
     .check-box:checked {
-      background-color: #f0f0f0; /* Cor de fundo quando marcado */
+      background-color: $orange-bg; /* Use uma cor hexadecimal ou RGB */
+      border: none;
+    }
+    
+    .check-box:checked::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: translate(-50%, -50%) rotate(45deg);
     }
   
     .input {
