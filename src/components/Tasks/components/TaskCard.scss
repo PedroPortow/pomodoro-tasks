@@ -76,13 +76,46 @@
       margin-left: 72px;
     }
 
-
     .task-content{
       display: flex;
       flex-direction: column;
       width: 100%;
       gap: 12px;
 
+      .input {
+        width: 100%;
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 16px;
+
+        &.checked {
+          position: relative;
+          animation: line-through 0.5s forwards;
+
+          &::after {
+            content: '';
+            position: absolute;
+            height: 2px;
+            color: orange;
+            animation: draw-line 0.5s forwards;
+          }
+        }
+      }
+
+    }
+
+    @keyframes line-through {
+      to {
+        text-decoration: line-through;
+        color: #ccc;
+      }
+    }
+
+    @keyframes draw-line {
+      to {
+        width: 100%;
+      }
     }
 
   }
@@ -107,4 +140,6 @@
     opacity: 1 !important;
     transition: 150ms ease-in-out;
   }
+
+
 }

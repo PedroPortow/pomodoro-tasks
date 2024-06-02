@@ -31,7 +31,6 @@ export const taskReducer = (state, { type, payload }) => {
     case ACTIONS.ADD_TASK:
       const insertIndex = payload.index;
 
-      console.log({payload})
 
       newState = [
         ...state.slice(0, insertIndex),

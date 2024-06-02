@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 export const TaskCard = ({ task, draggableIcon, taskChecked, focus, setFocusedTaskId, index }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [checked, setChecked] = useState(taskChecked);
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
 
   const { tasks, dispatch } = useTaskContext();
   const { t, i18n } = useTranslation();
@@ -16,7 +16,6 @@ export const TaskCard = ({ task, draggableIcon, taskChecked, focus, setFocusedTa
   const inputRef = useRef(null);
 
   const handleDeleteTask = () => {
-    console.log({ task });
     dispatch({
       type: ACTIONS.REMOVE_TASK,
       payload: {
@@ -43,17 +42,6 @@ export const TaskCard = ({ task, draggableIcon, taskChecked, focus, setFocusedTa
         check: checkEvent
       }
     });
-
-    if (checkEvent) {
-      setTimeout(() => {
-        dispatch({
-          type: ACTIONS.REORDER,
-          payload: {
-            id: task.id
-          }
-        });
-      }, 1000);
-    }
   };
 
   const handleUpdateTask = (e) => {
@@ -91,7 +79,6 @@ export const TaskCard = ({ task, draggableIcon, taskChecked, focus, setFocusedTa
     const nextIndex = index + 1;
     const prevIndex = index - 1;
 
-    console.log({key})
 
     if (key === 'ArrowDown' && nextIndex < tasks.length) {
       setFocusedTaskId(tasks[nextIndex].id);
@@ -103,12 +90,12 @@ export const TaskCard = ({ task, draggableIcon, taskChecked, focus, setFocusedTa
         payload: {
           id: task.id
         }
-      })
+      });
 
-      if (prevIndex >= 0){
-        setFocusedTaskId(tasks[prevIndex].id)
+      if (prevIndex >= 0) {
+        setFocusedTaskId(tasks[prevIndex].id);
       } else if (nextIndex <= tasks.length) {
-         setFocusedTaskId(tasks[nextIndex].id);
+        setFocusedTaskId(tasks[nextIndex].id);
       }
     }
   };
@@ -128,7 +115,7 @@ export const TaskCard = ({ task, draggableIcon, taskChecked, focus, setFocusedTa
         <input type='checkbox' checked={checked} className='check-box' onChange={handleCheckTask} />
         <div className='task-content'>
           <input
-            className='input'
+            className={`input ${checked ? 'checked' : ''}`}
             onChange={handleUpdateTask}
             value={task?.title}
             onKeyPress={handleKeyPress}
