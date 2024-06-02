@@ -5,11 +5,17 @@ import { TaskCard } from './components/TaskCard'
 import './TaskList.scss'
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next'
 
 export const TaskList = () => {
   const { tasks, dispatch } = useTaskContext()
   const [focusedTaskId, setFocusedTaskId] = useState()
 
+   const { t, i18n } = useTranslation();
+
+   const changeLanguage = (lng) => {
+     i18n.changeLanguage(lng);
+   };
 
   const onDragEnd = (result) => {
     const items = Array.from(tasks);
@@ -78,7 +84,7 @@ export const TaskList = () => {
       </DragDropContext>
       <div className='buttons-row'>
         <button className='add-task-btn' onClick={handleAddTask}>
-          Add Task
+         {t('add_task')}
         </button>
       </div>
     </>

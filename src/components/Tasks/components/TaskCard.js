@@ -3,6 +3,7 @@ import { ACTIONS, useTaskContext } from '../../../context/TaskContext';
 import { v4 as uuidv4 } from 'uuid';
 import './TaskCard.scss';
 import EditTaskModal from '../../Modals/EditTaskModal/EditTaskModal';
+import { useTranslation } from 'react-i18next';
 
 export const TaskCard = ({ task, draggableIcon, taskChecked, focus, setFocusedTaskId, index }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -10,6 +11,7 @@ export const TaskCard = ({ task, draggableIcon, taskChecked, focus, setFocusedTa
   const [isHovered, setIsHovered] = useState(false)
 
   const { tasks, dispatch } = useTaskContext();
+  const { t, i18n } = useTranslation();
 
   const inputRef = useRef(null);
 
