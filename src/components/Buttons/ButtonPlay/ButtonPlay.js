@@ -8,6 +8,6 @@ export const ButtonPlay = () => {
   const { isPaused, setIsPaused } = useApplicationContext()
 
   return (
-    <i className={`${isThemeDark ? "dark-text" : "light-text"} fa-solid ${isPaused ? "fa-play" : "fa-pause"} play-btn`} onClick={() => setIsPaused(!isPaused)} />
+    <i className={`${isThemeDark ? "dark-text" : "btn-light"} fa-solid ${isPaused ? "fa-play" : "fa-pause"} play-btn`} onClick={() => setIsPaused(!isPaused)} />
   )
 }

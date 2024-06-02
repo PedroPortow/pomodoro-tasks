@@ -1,25 +1,40 @@
 @import '../../styles/colors';
 
+.buttons-row{
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  margin-top: 16px;
+}
+
 .task-cards-wrapper{
   display: flex;
   flex-direction: column;
   width: 100%;
   // border: 1px solid red;
   gap: 16px;
-  height: 100%;
 }
 
-.add-task-btn{
-  padding: 15px;
+.add-task-btn {
+  padding: 12px;
   border-radius: 8px;
+  width: 100%;
   background-color: $orange-bg;
   color: white;
   border: none;
   outline: none;
-  margin-top: 16px;
-  cursor :pointer;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  font-size: 16px;
+  font-weight: 500;
 }
 
+.add-task-btn:hover {
+  background-color: darken($orange-bg, 8%); /* Altere a cor para uma versão mais escura do fundo */
+  transform: scale(1.002); /* Levemente aumenta o tamanho do botão */
+}
 
 .color-bg{
   color: #9b9b9b;

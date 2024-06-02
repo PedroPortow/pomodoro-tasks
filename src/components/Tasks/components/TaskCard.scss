@@ -7,8 +7,9 @@
   align-items: center;
 
   .hover {
-    background-color: #333; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-right: 4px solid $orange-bg;
   }
 
   .task-card-wrapper{
@@ -17,11 +18,13 @@
     align-items: center;
     flex-direction: row;
     gap: 14px;
-    padding: 12px;
+    padding: 12px 24px;
     border-radius: 8px;
+    border-top-right-radius: 0px;
+    border-end-end-radius: 0px;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  
- 
+
+
     .check-box {
       appearance: none;
       width: 25px;
@@ -32,12 +35,12 @@
       display: inline-block;
       position: relative;
     }
-    
+
     .check-box:checked {
       background-color: $orange-bg; /* Use uma cor hexadecimal ou RGB */
       border: none;
     }
-    
+
     .check-box:checked::after {
       content: '';
       position: absolute;
@@ -49,49 +52,49 @@
       border-width: 0 2px 2px 0;
       transform: translate(-50%, -50%) rotate(45deg);
     }
-  
+
     .input {
       padding: 6px;
       border-radius: 15px;
       color: #d9d9d9;
     }
-  
+
     .text-ellipsis{
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       max-width: 250px;
     }
-  
+
     .color-w{
       color: #E3E3E3;
     }
-  
+
     .chevron{
       cursor: pointer;
       font-weight: bold;
       margin-left: 72px;
     }
-  
-  
+
+
     .task-content{
       display: flex;
       flex-direction: column;
       width: 100%;
       gap: 12px;
-  
+
     }
-  
+
   }
-  
+
   .collapsed{
     height: fit-content;
-  
+
   }
-  
+
   .opened{
     transition: 0.5s ease-in-out;
-  
+
   }
 
   .fa{

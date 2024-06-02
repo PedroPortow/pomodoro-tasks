@@ -82,12 +82,12 @@ export const taskReducer = (state, { type, payload }) => {
 export const TaskContextProvider = ({ children }) => {
   const [tasks, dispatch] = useReducer(taskReducer, []);
 
-  useMemo(() => {
-    const storedTasks = localStorage.getItem('tasks');
-    if (storedTasks) {
-      dispatch({ type: ACTIONS.REORDER, payload: { data: JSON.parse(storedTasks) } });
-    }
-  }, []);
+  // useMemo(() => {
+  //   const storedTasks = localStorage.getItem('tasks');
+  //   if (storedTasks) {
+  //     dispatch({ type: ACTIONS.REORDER, payload: { data: JSON.parse(storedTasks) } });
+  //   }
+  // }, []);
 
   return (
     <TaskContext.Provider value={{ tasks, dispatch }}>

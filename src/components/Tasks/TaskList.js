@@ -42,7 +42,7 @@ export const TaskList = () => {
               ref={provided.innerRef}
               className='task-cards-wrapper'
             >
-              {tasks.length && tasks.map((task, index) => {
+              {tasks.length ? tasks.map((task, index) => {
                 return (
                   <Draggable
                     key={index}
@@ -63,22 +63,24 @@ export const TaskList = () => {
                                 {...provided.dragHandleProps} />
                             }
                             focus={task?.id == focusedTaskId}
-                            onAddTask={(id) => setFocusedTaskId(id)}
+                            setFocusedTaskId={(id) => setFocusedTaskId(id)}
                           />
                         </div>
                       )
                     }}
                   </Draggable>
                 )
-              })}
+              }) : null}
               {provided.placeholder}
             </div>
           )}
         </Droppable>
       </DragDropContext>
-      <button className='add-task-btn' onClick={handleAddTask}>
-        Add Task
-      </button>
+      <div className='buttons-row'>
+        <button className='add-task-btn' onClick={handleAddTask}>
+          Add Task
+        </button>
+      </div>
     </>
   )
 }
